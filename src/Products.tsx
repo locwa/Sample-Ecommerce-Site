@@ -1,6 +1,6 @@
 import "./App.css"
 import Navbar from "./Navbar.tsx"
-import {useParams} from "react-router";
+import { useParams } from "react-router";
 export default function Products(){
     let { category } = useParams();
     let content = (
@@ -11,17 +11,17 @@ export default function Products(){
 
         case "clothes":
             content = (
-                <h1>This is the clothes page</h1>
+                <h1 className='text-5xl font-bold'>Clothes</h1>
             )
             break;
         case "tech":
             content = (
-                <h1>This is the tech page</h1>
+                <h1 className='text-5xl font-bold'>Tech</h1>
             )
             break;
         default:
             content = (
-                <h1>All products here</h1>
+                <h1 className='text-5xl font-bold'>All products</h1>
             )
 
     }
@@ -30,7 +30,9 @@ export default function Products(){
         <>
             <title>OmniShop</title>
             <Navbar />
-            {content}
+            <main className='p-12'>
+                {content}
+            </main>
         </>
     )
 }
