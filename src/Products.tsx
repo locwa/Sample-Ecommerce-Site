@@ -1,6 +1,17 @@
 import "./App.css"
 import Navbar from "./Navbar.tsx"
 import { useParams } from "react-router";
+
+function ProductCard(){
+    return(
+        <section className='my-14'>
+            <div className='h-80 w-72 bg-black'></div>
+            <h4 className='my-2 text-xl font-light'>Product 1</h4>
+            <p className='text-lg'>$54.99</p>
+        </section>
+    )
+}
+
 export default function Products(){
     let { category } = useParams();
     let content = (
@@ -32,6 +43,16 @@ export default function Products(){
             <Navbar />
             <main className='p-12'>
                 {content}
+                <div className='flex flex-wrap gap-4'>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                </div>
             </main>
         </>
     )
