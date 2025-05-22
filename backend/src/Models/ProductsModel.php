@@ -10,6 +10,7 @@ class Database{
     protected function connect(){
         $dotenv = Dotenv::createImmutable(__DIR__);
         $dotenv->load();
+
         $user = $_ENV['DB_USER'];
         $pwd = $_ENV['DB_PASSWORD'];
         $host = $_ENV['DB_HOST'];
@@ -29,6 +30,11 @@ class Database{
     }
 }
 
-class ProductModel{
+class ProductsModel extends Database{
+    public function getItems(){
+        $stmt = $this->connect()->prepare("SELECT * FROM products");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
 }
