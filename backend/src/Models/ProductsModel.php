@@ -42,9 +42,9 @@ class Database{
 }
 
 /**
- * An abstract class for fetching items in the database
+ * An abstract class for fetching products in the database
  *
- * This class has methods for getting all items, or items in a specific category
+ * This class has methods for getting all products, or products in a specific category
  */
 abstract class ProductsModel extends Database{
 
@@ -65,4 +65,28 @@ abstract class ProductsModel extends Database{
      * @return mixed
      */
     abstract public function getProducts();
+}
+
+/**
+ * A class that handles the fetching of products in the clothes category
+ *
+ */
+class ClothesProducts extends ProductsModel{
+    public function getProducts(){
+        $stmt = $this->connect()->prepare("SELECT * FROM products WHERE category = 'clothes'");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+}
+
+/**
+ * A class that handles the fetching of products in the tech category
+ *
+ */
+class TechProducts extends ProductsModel{
+    public function getProducts(){
+        $stmt = $this->connect()->prepare("SELECT * FROM products WHERE category = 'clothes'");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
