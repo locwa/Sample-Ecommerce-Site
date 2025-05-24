@@ -12,15 +12,15 @@ use Dotenv\Dotenv;
  *
  * The Database class contains the connect() method, which is the method to connect to the database
  */
-class Database{
+class Database extends PDO {
     /**
      * A method to connect to the database
      *
      * This method connects to the database, and provides PDO methods that can be used to do SQL queries
      */
-    protected function connect(){
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
+    public final function __construct(){
+        $dotenv = Dotenv::createImmutable(__DIR__, '/../../.env');
+        $dotenv->safeLoad();
 
         $user = $_ENV['DB_USER'];
         $pwd = $_ENV['DB_PASSWORD'];
@@ -29,64 +29,48 @@ class Database{
 
         $dsn = "mysql:host=". $host .";dbname=". $dbname;
 
-
         // connection to database
         try{
-            $conn = new PDO($dsn, $user, $pwd);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            parent::__construct($dsn, $user, $pwd);
+            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch (PDOException $e){
             echo "connection failed:". $e->getMessage();
-       }
+        }
     }
 }
 
 /**
- * An abstract class for fetching products in the database
+ * A class for fetching products in the database
  *
- * This class has methods for getting all products, or products in a specific category
+ * This class has methods for getting all products
  */
-abstract class ProductsModel extends Database{
-
+class ProductsModel{
     /**
      * Gets all products in the database
      *
      * @return mixed
      */
-    public function getAllProducts(){
-        $stmt = $this->connect()->prepare("SELECT * FROM products");
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-
-    /**
-     * Gets specific products based on their category
-     *
-     * @return mixed
-     */
-    abstract public function getProducts();
-}
-
-/**
- * A class that handles the fetching of products in the clothes category
- *
- */
-class ClothesProducts extends ProductsModel{
     public function getProducts(){
-        $stmt = $this->connect()->prepare("SELECT * FROM products WHERE category = 'clothes'");
+        //
+        $db = new Database();
+        $stmt = $db->prepare("SELECT * FROM products");
         $stmt->execute();
-        return $stmt->fetchAll();
-    }
-}
+        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-/**
- * A class that handles the fetching of products in the tech category
- *
- */
-class TechProducts extends ProductsModel{
-    public function getProducts(){
-        $stmt = $this->connect()->prepare("SELECT * FROM products WHERE category = 'clothes'");
-        $stmt->execute();
-        return $stmt->fetchAll();
+        $resultArray = [];
+
+        foreach($res as $product){
+            $arrayToPush = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'inStock' => $product->inStock,
+                'description' => $product->description,
+                'category' => $product->category,
+                'brand' => $product->brand,
+            ];
+            $resultArray[] = $arrayToPush;
+        }
+        return $resultArray;
     }
 }
