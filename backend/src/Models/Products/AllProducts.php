@@ -47,10 +47,33 @@ class AllProducts extends AbstractProducts
      */
     public function getProductPrice(int $index) : array{
         $db = new Database();
-        $stmt = $db->prepare("SELECT price FROM products");
+        $stmt = $db->prepare("SELECT price, currency_id FROM products");
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-        return ['amount' => $res[$index]->price];
+        return [
+            'amount' => $res[$index]->price,
+            'currency_id' => $res[$index]->currency_id,
+        ];
+    }
+
+    /**
+     * Gets the product currency type
+     *
+     * This method gets the currency type of the product
+     *
+     * @return array
+     */
+
+    public function getProductCurrency(int $id) : array{
+        $db = new Database();
+        $stmt = $db->prepare("SELECT * FROM currency WHERE id = ?");
+        $stmt->execute([$id]);
+        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        return [
+            'label' => $res[0]->label,
+            'symbol' => $res[0]->symbol
+        ];
     }
 }
