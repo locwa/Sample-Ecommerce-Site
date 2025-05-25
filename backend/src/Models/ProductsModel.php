@@ -46,12 +46,15 @@ class Database extends PDO {
  * This class has methods for getting all products
  */
 class ProductsModel{
+
     /**
-     * Gets all products in the database
+     * Gets all products and their details in the database.
      *
-     * @return mixed
+     * This method gets all products and the values of the columns id, name, inStock, description, category, and brand.
+     *
+     * @return array
      */
-    public function getProducts(){
+    public function getProductDetails(){
         //
         $db = new Database();
         $stmt = $db->prepare("SELECT * FROM products");
@@ -60,7 +63,7 @@ class ProductsModel{
 
         $resultArray = [];
 
-        foreach($res as $product){
+        foreach($res as $index=>$product){
             $arrayToPush = [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -68,9 +71,26 @@ class ProductsModel{
                 'description' => $product->description,
                 'category' => $product->category,
                 'brand' => $product->brand,
+                'index' => $index,
             ];
             $resultArray[] = $arrayToPush;
         }
         return $resultArray;
+    }
+
+    /**
+     * Gets the product price
+     *
+     * This method gets the price of the product
+     *
+     * @return array
+     */
+    public function getProductPrice(int $index){
+        $db = new Database();
+        $stmt = $db->prepare("SELECT price FROM products");
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        return ['amount' => $res[$index]->price];
     }
 }
