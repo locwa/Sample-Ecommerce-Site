@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Products;
 
-
-use PDO;
 use App\Database\Database;
-/**
- * A class for fetching products in the database
- *
- * This class has methods for getting all products
- */
-class ProductsModel{
+use PDO;
 
+class AllProducts extends AbstractProducts
+{
     /**
      * Gets all products and their details in the database.
      *
@@ -19,7 +14,7 @@ class ProductsModel{
      *
      * @return array
      */
-    public function getProductDetails(){
+    public function getProductDetails() : array{
         //
         $db = new Database();
         $stmt = $db->prepare("SELECT * FROM products");
@@ -50,7 +45,7 @@ class ProductsModel{
      *
      * @return array
      */
-    public function getProductPrice(int $index){
+    public function getProductPrice(int $index) : array{
         $db = new Database();
         $stmt = $db->prepare("SELECT price FROM products");
         $stmt->execute();
