@@ -28,6 +28,7 @@ class AllProducts extends AbstractProducts
                 'id' => $product->id,
                 'name' => $product->name,
                 'inStock' => $product->inStock,
+                'gallery' => self::getProductGallery($product->id),
                 'description' => $product->description,
                 'category' => $product->category,
                 'brand' => $product->brand,
@@ -75,5 +76,27 @@ class AllProducts extends AbstractProducts
             'label' => $res[0]->label,
             'symbol' => $res[0]->symbol
         ];
+    }
+
+    /**
+     * Gets the gallery of the product
+     *
+     * This method gets the gallery of photos and their respective link
+     *
+     * @return array
+     */
+
+    public static function getProductGallery(string $id) : array{
+        $db = new Database();
+        $stmt = $db->prepare("SELECT link FROM gallery WHERE product_id = ?");
+        $stmt->execute([$id]);
+        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        $resultArray = [];
+
+        foreach($res as $gallery){
+            array_push($resultArray, $gallery->link);
+        }
+        return $resultArray;
     }
 }
