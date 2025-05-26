@@ -44,6 +44,7 @@ class AllProducts extends AbstractProducts
      *
      * This method gets the price of the product
      *
+     * @param int $index
      * @return array
      */
     public function getProductPrice(int $index) : array{
@@ -63,6 +64,7 @@ class AllProducts extends AbstractProducts
      *
      * This method gets the currency type of the product
      *
+     * @param int $id
      * @return array
      */
 
@@ -83,6 +85,7 @@ class AllProducts extends AbstractProducts
      *
      * This method gets the gallery of photos and their respective link
      *
+     * @param string $id
      * @return array
      */
 
