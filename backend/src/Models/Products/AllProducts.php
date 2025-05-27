@@ -14,11 +14,22 @@ class AllProducts extends AbstractProducts
      *
      * @return array
      */
-    public function getProductDetails() : array{
+    public function getProductDetails(string $id = null) : array{
         //
         $db = new Database();
-        $stmt = $db->prepare("SELECT * FROM products");
-        $stmt->execute();
+        $query = "SELECT * FROM products";
+        if ($id !== null){
+            $query .= " WHERE id = ?";
+        }
+
+        $stmt = $db->prepare($query);
+
+        if ($id !== null){
+            $stmt->execute([$id]);
+        } else {
+            $stmt->execute();
+        }
+
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         $resultArray = [];
