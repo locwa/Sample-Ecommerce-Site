@@ -1,4 +1,5 @@
 type Currency = {
+    label: string;
     symbol: string;
 }
 
@@ -12,7 +13,10 @@ type Product = {
     name: string;
     inStock: boolean;
     gallery: string[];
+    description: string;
+    category: string;
     prices: Price;
+    brand: string;
 };
 
 export type ProductsData = {
