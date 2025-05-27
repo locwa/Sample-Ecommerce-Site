@@ -5,21 +5,21 @@ import {gql, useQuery} from "@apollo/client";
 import type {ProductsData} from "./Types/ProductTypes";
 
 const GET_PRODUCTS = gql`
-        query GetProducts($category: String) {
-            products(category: $category){
-               id
-               name
-               inStock
-               gallery
-               prices{
-                amount
-                currency{
-                    symbol
-                }
-               }
+    query GetProducts($category: String) {
+        products(category: $category){
+           id
+           name
+           inStock
+           gallery
+           prices{
+            amount
+            currency{
+                symbol
             }
+           }
         }
-    `;
+    }
+`;
 
 
 function ProductCards({ category }: { category?: string }){
@@ -47,7 +47,7 @@ function ProductCards({ category }: { category?: string }){
     );
 }
 
-export default function Products(){
+export default function ProductList(){
     const { category } = useParams();
     let content = (
         <></>
