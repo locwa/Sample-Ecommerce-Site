@@ -2,33 +2,11 @@ import "./App.css"
 import Navbar from "./Navbar.tsx"
 import { useParams } from "react-router";
 import {gql, useQuery} from "@apollo/client";
+import type {ProductsData} from "./Types/ProductTypes";
 
-type Currency = {
-    symbol: string;
-}
-
-type Price = {
-    amount: number;
-    currency: Currency;
-}
-
-type Product = {
-    id: string;
-    name: string;
-    inStock: boolean;
-    gallery: string[];
-    prices: Price;
-};
-
-type ProductsData = {
-    products: Product[];
-};
-
-function ProductCards(){
-
-    const GET_PRODUCTS = gql`
-        query GetProducts {
-            products{
+const GET_PRODUCTS = gql`
+        query GetProducts($category: String) {
+            products(category: $category){
                id
                name
                inStock
@@ -43,7 +21,12 @@ function ProductCards(){
         }
     `;
 
-    const { data, error, loading } = useQuery<ProductsData>(GET_PRODUCTS);
+
+function ProductCards({ category }: { category?: string }){
+
+    const { data, error, loading } = useQuery<ProductsData>(GET_PRODUCTS, {
+        variables: category ? { category } : {},
+    });
 
     if (loading) return <p className="text-xl my-10">Loading...</p>;
     if (error) return <p>Oops. It seems there is an error loading all products</p>;
@@ -71,20 +54,28 @@ export default function Products(){
     );
 
     switch (category) {
-
         case "clothes":
             content = (
-                <h1 className='text-5xl font-bold'>Clothes</h1>
+                <>
+                    <h1 className='text-5xl font-bold'>Clothes</h1>
+                    <ProductCards category="clothes"/>
+                </>
             )
             break;
         case "tech":
             content = (
-                <h1 className='text-5xl font-bold'>Tech</h1>
+                <>
+                    <h1 className='text-5xl font-bold'>Tech</h1>
+                    <ProductCards category="tech"/>
+                </>
             )
             break;
         default:
             content = (
-                <h1 className='text-5xl font-bold'>All products</h1>
+                <>
+                    <h1 className='text-5xl font-bold'>All Products</h1>
+                    <ProductCards/>
+                </>
             )
 
     }
@@ -95,7 +86,6 @@ export default function Products(){
             <Navbar />
             <main className='p-12'>
                 {content}
-                    <ProductCards/>
             </main>
         </>
     )
