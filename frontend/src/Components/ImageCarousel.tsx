@@ -13,7 +13,7 @@ export default function ImageCarousel({gallery} : {gallery? : string[]}) {
                 ))}
             </div>
             <div className="relative">
-                <img src={gallery?.[imageCount]} alt="image" className="h-[35rem] w-[50rem] object-scale-down object-top"/>
+                <img src={gallery?.[imageCount]} alt="image" className="h-[35rem] w-[50rem] object-scale-down"/>
                 <div className="absolute top-70 left-0 flex justify-between w-full">
                     <button
                         className="flex justify-center items-center w-9 h-7 bg-[#4f4f4f] text-lg hover:cursor-pointer"
