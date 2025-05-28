@@ -31,3 +31,44 @@ export function LoadedCart(){
         </svg>
     )
 }
+
+export function LeftCaret() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="17"
+            fill="none"
+            viewBox="0 0 10 17"
+        >
+            <path
+                stroke="#fff"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="m8.969 1.166-7.43 7.421 7.43 7.422"
+            ></path>
+        </svg>
+
+    )
+}
+
+export function RightCaret() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="17"
+            fill="none"
+            viewBox="0 0 10 17"
+        >
+            <path
+                stroke="#fff"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="m1 1.092 7.5 7.492L1 16.076"
+            ></path>
+        </svg>
+    )
+}
