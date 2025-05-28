@@ -1,4 +1,4 @@
-import {Cart} from "./Logos.tsx";
+import {Cart} from "../Logos.tsx";
 import {NavLink, useParams} from "react-router";
 
 type NavlinkProps = {
@@ -25,7 +25,7 @@ function NavlinkComponent(
 }
 
 export default function Navbar() {
-    let {category} = useParams();
+    const {category} = useParams();
 
     console.log(category);
     return (

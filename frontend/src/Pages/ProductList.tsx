@@ -1,6 +1,6 @@
-import "./App.css"
-import Navbar from "./Navbar.tsx"
-import ProductCards from "./Components/ProductCards.tsx";
+import "../App.css"
+import Navbar from "../Components/Navbar.tsx"
+import ProductCards from "../Components/ProductCards.tsx";
 import {useParams} from "react-router";
 
 
