@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Models\Products\AllProducts;
 use App\Models\Products\ClothesProducts;
 use App\Models\Products\TechProducts;
+use App\Types\ProductType\ProductType;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -17,48 +18,7 @@ class GraphQL {
     static public function handle() {
         try {
 
-            $currencyType = new ObjectType([
-                'name' => 'Currency',
-                'fields' => [
-                    'label' => Type::string(),
-                    'symbol' => Type::string()
-                ]
-            ]);
-
-            $pricesType = new ObjectType([
-                'name' => 'prices',
-                'fields' => [
-                    'amount' => Type::float(),
-                    'currency' => [
-                        'type' => $currencyType,
-                        'resolve' => function($currency) {
-                            $products = new AllProducts();
-                            return $products->getProductCurrency($currency['currency_id']);
-                        }
-                    ],
-                ]
-            ]);
-
-            $productType = new ObjectType([
-                'name' => 'ProductList',
-                'fields' => [
-                    'id'=> Type::nonNull(Type::string()),
-                    'name'=> Type::string(),
-                    'inStock'=> Type::boolean(),
-                    'gallery' => Type::listOf(Type::string()),
-                    'description'=> Type::string(),
-                    'category'=> Type::string(),
-                    'prices' => [
-                        'type' => $pricesType,
-                        'resolve' => function($price) {
-                            $products = new AllProducts();
-                            return $products->getProductPrice($price['index']);
-                        }
-                    ],
-                    'brand'=> Type::string(),
-                ]
-
-            ]);
+            $productType = new ProductType();
 
             $queryType = new ObjectType([
                 'name' => 'Query',
