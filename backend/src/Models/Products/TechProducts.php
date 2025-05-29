@@ -40,7 +40,6 @@ class TechProducts extends AbstractProducts
                 'inStock' => $product->inStock,
                 'gallery' => self::getProductGallery($product->id),
                 'description' => $product->description,
-                'category' => $product->category,
                 'brand' => $product->brand,
                 'index' => $index,
             ];
