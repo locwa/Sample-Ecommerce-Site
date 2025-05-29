@@ -1,7 +1,10 @@
 <?php
 
-namespace fullstack-test-starter\src\Controller-test-starter\src\Controller;
+namespace App\Controller;
 
+use App\Models\Products\AllProducts;
+use App\Models\Products\ClothesProducts;
+use App\Models\Products\TechProducts;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -13,19 +16,71 @@ use Throwable;
 class GraphQL {
     static public function handle() {
         try {
+
+            $currencyType = new ObjectType([
+                'name' => 'Currency',
+                'fields' => [
+                    'label' => Type::string(),
+                    'symbol' => Type::string()
+                ]
+            ]);
+
+            $pricesType = new ObjectType([
+                'name' => 'prices',
+                'fields' => [
+                    'amount' => Type::float(),
+                    'currency' => [
+                        'type' => $currencyType,
+                        'resolve' => function($currency) {
+                            $products = new AllProducts();
+                            return $products->getProductCurrency($currency['currency_id']);
+                        }
+                    ],
+                ]
+            ]);
+
+            $productType = new ObjectType([
+                'name' => 'ProductList',
+                'fields' => [
+                    'id'=> Type::nonNull(Type::string()),
+                    'name'=> Type::string(),
+                    'inStock'=> Type::boolean(),
+                    'gallery' => Type::listOf(Type::string()),
+                    'description'=> Type::string(),
+                    'category'=> Type::string(),
+                    'prices' => [
+                        'type' => $pricesType,
+                        'resolve' => function($price) {
+                            $products = new AllProducts();
+                            return $products->getProductPrice($price['index']);
+                        }
+                    ],
+                    'brand'=> Type::string(),
+                ]
+
+            ]);
+
             $queryType = new ObjectType([
                 'name' => 'Query',
                 'fields' => [
-                    'echo' => [
-                        'type' => Type::string(),
+                    'products' => [
+                        'type' => Type::listOf($productType),
                         'args' => [
-                            'message' => ['type' => Type::string()],
+                            'category'=> Type::string(),
+                            'id' => Type::string()
                         ],
-                        'resolve' => static fn ($rootValue, array $args): string => $rootValue['prefix'] . $args['message'],
+                        'resolve' => function ($root, $args){
+                            $products = match ($args['category']) {
+                                'clothes' => (new ClothesProducts())->getProductDetails($args['id']),
+                                'tech' => (new TechProducts())->getProductDetails($args['id']),
+                                default => (new AllProducts())->getProductDetails($args['id'])
+                            };
+                            return $products;
+                        },
                     ],
                 ],
             ]);
-        
+
             $mutationType = new ObjectType([
                 'name' => 'Mutation',
                 'fields' => [
@@ -45,6 +100,7 @@ class GraphQL {
             $schema = new Schema(
                 (new SchemaConfig())
                 ->setQuery($queryType)
+                ->setTypes([$productType])
                 ->setMutation($mutationType)
             );
         
