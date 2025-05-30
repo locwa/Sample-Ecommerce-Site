@@ -4,6 +4,7 @@ import SanitizeHTML from "../Components/SanitizeHTML.tsx";
 import {useParams} from "react-router";
 import type {ProductsData} from "../Types/ProductTypes";
 import {gql, useQuery} from "@apollo/client";
+import Attributes from "../Components/Attributes.tsx";
 
 const GET_PRODUCT = gql`
     query GetProduct($productId: String ) {
@@ -13,6 +14,16 @@ const GET_PRODUCT = gql`
             inStock
             gallery
             description
+            attributes{
+              id
+              items{
+                displayValue
+                value
+                id
+              }
+              name
+              type
+            }
             prices{
                 amount
                 currency{
@@ -23,6 +34,8 @@ const GET_PRODUCT = gql`
         }
     }
 `;
+
+
 
 export default function ProductDetails() {
     const { product } = useParams<{ product: string }>();
@@ -44,10 +57,10 @@ export default function ProductDetails() {
                         <ImageCarousel gallery={p.gallery} />
                         <div className="w-[45vw]">
                             <h2 className="text-4xl">{`${p.brand}  ${p.name} `}</h2>
-                            {/* TODO: Add Attributes */}
+                            <Attributes items={p.attributes}/>
                             <h4 className="text-xl my-4">PRICE:</h4>
                             <h3 className="text-3xl mb-4">{p.prices.currency.symbol}{p.prices.amount}</h3>
-                            <button type="submit" className="w-1/2 py-4 mb-8 text-white bg-[#5ECE7B]">ADD TO CART</button>
+                            <button type="submit" className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")} disabled={p.inStock}>ADD TO CART</button>
                             <SanitizeHTML html={p.description} />
                         </div>
                     </section>
