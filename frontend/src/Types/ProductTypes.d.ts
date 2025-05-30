@@ -1,3 +1,16 @@
+type Items = {
+    displayValue: string;
+    value: string;
+    id: string;
+}
+
+type Attribute = {
+    id: string;
+    items: Items[];
+    name: string;
+    type: string;
+}
+
 type Currency = {
     label: string;
     symbol: string;
@@ -15,6 +28,7 @@ type Product = {
     gallery: string[];
     description: string;
     category: string;
+    attributes: Attribute[];
     prices: Price;
     brand: string;
 };
