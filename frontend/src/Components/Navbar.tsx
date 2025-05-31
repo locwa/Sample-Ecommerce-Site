@@ -1,4 +1,5 @@
 import {Cart} from "../Logos.tsx";
+import {getCart} from "../Utils/cart.ts";
 import {NavLink, useParams} from "react-router";
 
 type NavlinkProps = {
@@ -36,7 +37,9 @@ export default function Navbar() {
                 <NavlinkComponent path='/tech' isActive={ category == "tech" } name='TECH'/>
             </div>
             <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
-            <Cart/>
+            <button onClick={() => console.log(getCart())}>
+                <Cart/>
+            </button>
         </nav>
     )
 }

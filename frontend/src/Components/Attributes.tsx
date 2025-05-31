@@ -1,16 +1,24 @@
 import type {Attribute} from "../Types/ProductTypes";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {useState} from "react";
+import {setAttributes} from "../Utils/cart.ts";
 
 export default function Attributes({ items }: { items: Attribute[] }) {
     const [selectedByAttr, setSelectedByAttr] = useState<Record<string, string | null>>({});
 
     const handleSelect = (attributeId: string, itemId: string) => {
-        setSelectedByAttr((prev) => ({
-            ...prev,
-            [attributeId]: itemId,
-        }));
+        setSelectedByAttr(prev => {
+            const isAlreadySelected = prev[attributeId] === itemId;
+            if (isAlreadySelected) {
+                const updated = { ...prev };
+                delete updated[attributeId]; // deselect
+                return updated;
+            }
+            return { ...prev, [attributeId]: itemId }; // select
+        });
     };
+
+    setAttributes(selectedByAttr, Object.keys(items).length);
 
     return (
         <div className="my-6">
