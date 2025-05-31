@@ -55,10 +55,10 @@ class TechProducts extends AbstractProducts
      *
      * @return array
      */
-    public function getProductPrice(int $index) : array{
+    public function getProductPrice(int $index, string $id) : array{
         $db = new Database();
-        $stmt = $db->prepare("SELECT price FROM products WHERE category = 'tech'");
-        $stmt->execute();
+        $stmt = $db->prepare("SELECT price FROM products WHERE category = 'tech' AND id = ?");
+        $stmt->execute([$id]);
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         return ['amount' => $res[$index]->price];

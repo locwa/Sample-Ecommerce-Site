@@ -57,15 +57,15 @@ class AllProducts extends AbstractProducts
      * @param int $index
      * @return array
      */
-    public function getProductPrice(int $index) : array{
+    public function getProductPrice(int $index, string $id = null) : array{
         $db = new Database();
-        $stmt = $db->prepare("SELECT price, currency_id FROM products");
-        $stmt->execute();
+        $stmt = $db->prepare("SELECT price, currency_id FROM products WHERE id = ?");
+        $stmt->execute([$id]);
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         return [
-            'amount' => $res[$index]->price,
-            'currency_id' => $res[$index]->currency_id,
+            'amount' => $res[0]->price,
+            'currency_id' => $res[0]->currency_id,
         ];
     }
 
