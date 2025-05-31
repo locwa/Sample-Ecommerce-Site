@@ -1,7 +1,7 @@
 import "../App.css"
-import Navbar from "../Components/Navbar.tsx"
 import ProductCards from "../Components/ProductCards.tsx";
 import {useParams} from "react-router";
+import Layout from "../Layout.tsx";
 
 
 export default function ProductList(){
@@ -38,12 +38,8 @@ export default function ProductList(){
     }
 
     return(
-        <>
-            <title>OmniShop</title>
-            <Navbar />
-            <main className='p-12'>
-                {content}
-            </main>
-        </>
+        <Layout>
+            {content}
+        </Layout>
     )
 }
