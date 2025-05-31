@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Models\Categories\Categories;
 use App\Models\Products\AllProducts;
 use App\Models\Products\ClothesProducts;
 use App\Models\Products\TechProducts;
+use App\Types\CategoryType\CategoryType;
 use App\Types\ProductType\ProductType;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
@@ -19,10 +21,26 @@ class GraphQL {
         try {
 
             $productType = new ProductType();
+            $categoryType = new CategoryType();
+
 
             $queryType = new ObjectType([
                 'name' => 'Query',
                 'fields' => [
+                    'categories' => [
+                        'type' => Type::listOf($categoryType),
+                        'args' => [
+                            'category' => Type::string()
+                        ],
+                        'resolve' => function($root, $args) {
+                            $categoryModel = new Categories();
+                            if (isset($args['name'])) {
+                                return $categoryModel->getCategory($args['name']);
+                            } else {
+                                return $categoryModel->getAllCategories();
+                            }
+                        }
+                    ],
                     'products' => [
                         'type' => Type::listOf($productType),
                         'args' => [
