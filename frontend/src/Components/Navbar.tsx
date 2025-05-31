@@ -1,6 +1,6 @@
 import {Cart} from "../Logos.tsx";
-import {getCart} from "../Utils/cart.ts";
 import {NavLink, useParams} from "react-router";
+import {getCart} from "../Utils/cart.ts";
 
 type NavlinkProps = {
     isActive: boolean,
@@ -25,21 +25,33 @@ function NavlinkComponent(
     }
 }
 
-export default function Navbar() {
+export default function Navbar({ toggleCart }: { toggleCart: () => void }) {
     const {category} = useParams();
 
-    console.log(category);
     return (
-        <nav className='flex justify-between items-center px-10 py-2'>
+        <nav className='sticky top-0 z-50 bg-white w-full flex justify-between items-center px-10 py-2 bg-white z-2'>
             <div className='flex gap-10'>
-                <NavlinkComponent path='/' isActive={ (category == undefined) && (category !== 'clothes' || category !== 'tech') } name='ALL'/>
-                <NavlinkComponent path='/clothes' isActive={ category == "clothes" } name='CLOTHES'/>
-                <NavlinkComponent path='/tech' isActive={ category == "tech" } name='TECH'/>
+                <NavlinkComponent
+                    path='/'
+                    isActive={(category == undefined) && (category !== 'clothes' || category !== 'tech')}
+                    name='ALL'
+                />
+                <NavlinkComponent
+                    path='/clothes'
+                    isActive={category == "clothes"}
+                    name='CLOTHES'
+                />
+                <NavlinkComponent
+                    path='/tech'
+                    isActive={category == "tech"}
+                    name='TECH'
+                />
             </div>
             <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
-            <button onClick={() => console.log(getCart())}>
+            <button onClick={toggleCart}>
                 <Cart/>
             </button>
+            <button onClick={() => getCart()}>getcar</button>
         </nav>
     )
 }
