@@ -1,6 +1,5 @@
 import {Cart} from "../Logos.tsx";
 import {NavLink, useParams} from "react-router";
-import {getCart} from "../Utils/cart.ts";
 
 type NavlinkProps = {
     isActive: boolean,
@@ -51,7 +50,6 @@ export default function Navbar({ toggleCart }: { toggleCart: () => void }) {
             <button onClick={toggleCart}>
                 <Cart/>
             </button>
-            <button onClick={() => getCart()}>getcar</button>
         </nav>
     )
 }
