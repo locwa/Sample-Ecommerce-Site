@@ -7,6 +7,7 @@ import {gql, useQuery} from "@apollo/client";
 import Attributes from "../Components/Attributes.tsx";
 import {useState} from "react";
 import Layout from "../Layout.tsx";
+import type {Attribute} from "../Types/CartItems";
 
 const GET_PRODUCT = gql`
     query GetProduct($productId: String ) {
@@ -48,8 +49,8 @@ export default function ProductDetails() {
 
     const [addToCartStatus, setAddToCartStatus] = useState(true);
 
-    const cartButtonClick = (name : string, price : number, currency : string) => {
-        const success = addToCart(name, price, currency);
+    const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[]) => {
+        const success = addToCart(name, price, currency, attributes);
         setAddToCartStatus(success)
     }
 
@@ -71,7 +72,7 @@ export default function ProductDetails() {
                         <button
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             disabled={!p.inStock}
-                            onClick={() => cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol)}
+                            onClick={() => cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes)}
                         >ADD TO CART
                         </button>
                         <SanitizeHTML html={p.description} />
