@@ -47,7 +47,7 @@ export default function Navbar({ toggleCart }: { toggleCart: () => void }) {
                 />
             </div>
             <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
-            <button onClick={toggleCart}>
+            <button onClick={toggleCart} className="hover:cursor-pointer">
                 <Cart/>
             </button>
         </nav>

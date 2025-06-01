@@ -15,7 +15,7 @@ export default function Layout(
             {isCartOpen && (
                 <>
                     <div
-                        className="fixed top-15 left-0 w-full h-full bg-[#00000055]"
+                        className="fixed top-15 left-0 w-full h-full bg-[#00000055] z-20"
                         onClick={() => setIsCartOpen(prev => !prev)}
                     />
 
