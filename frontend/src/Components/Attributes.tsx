@@ -1,4 +1,4 @@
-import type {Attribute} from "../Types/ProductTypes";
+import type {Attribute} from "../Types/Attribute";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {useState} from "react";
 import {setAttributes} from "../Utils/cart.ts";
@@ -35,6 +35,7 @@ export default function Attributes({ items }: { items: Attribute[] }) {
                                 itemDisplayValue={item.displayValue}
                                 selectedId={selectedByAttr[attr.id] || null}
                                 onSelect={() => handleSelect(attr.id, item.id)}
+                                size="md"
                             />
                         ))}
                     </div>

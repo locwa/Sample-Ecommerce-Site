@@ -5,4 +5,5 @@ export type AttributeSelector = {
     itemDisplayValue: string;
     selectedId: string | null;
     onSelect: (id) => string | void;
+    size: string;
 }
