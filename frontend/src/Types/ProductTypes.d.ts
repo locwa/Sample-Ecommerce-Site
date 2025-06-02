@@ -1,15 +1,4 @@
-type Items = {
-    displayValue: string;
-    value: string;
-    id: string;
-}
-
-type Attribute = {
-    id: string;
-    items: Items[];
-    name: string;
-    type: string;
-}
+import type Attribute from "./Attribute"
 
 type Currency = {
     label: string;

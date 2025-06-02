@@ -7,7 +7,7 @@ import {gql, useQuery} from "@apollo/client";
 import Attributes from "../Components/Attributes.tsx";
 import {useState} from "react";
 import Layout from "../Layout.tsx";
-import type {Attribute} from "../Types/CartItems";
+import type {Attribute} from "../Types/Attribute";
 
 const GET_PRODUCT = gql`
     query GetProduct($productId: String ) {
