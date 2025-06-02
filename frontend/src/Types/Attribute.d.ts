@@ -1,4 +1,4 @@
-type Items = {
+export type Items = {
     displayValue: string;
     value: string;
     id: string;
