@@ -1,16 +1,20 @@
-let cart : object[] = [];
+import type {Attribute} from "../Types/Attribute";
+
+let id = 0;
 let selectedAttributes : object = [];
 let attributeChecker : boolean = false;
 
-export function addToCart (name : string, price : number, currency : string) {
-    if (isAttributeComplete()) {
+export function addToCart (name : string, price : number, currency : string, attributes: Attribute[]) {
+    if (attributeChecker) {
         let item = {
             name: name,
             price: price,
             currency: currency,
-            selectedAttributes: getAttributes()
+            selectedAttributes: selectedAttributes,
+            productAttributes: attributes
         };
-        cart.push(item);
+        localStorage.setItem(id.toString(), JSON.stringify(item))
+        id++
         return true;
     } else {
         return false;
@@ -28,15 +32,13 @@ export function setAttributes(attributes : object, objectCount : number) {
     }
 
 }
-
-export function getAttributes() {
-    return selectedAttributes;
-}
-
 export function getCart(){
-    return cart;
-}
-
-export function isAttributeComplete() {
-    return attributeChecker;
+    let cart = []
+    for (let i = 0; i < localStorage.length; i++){
+        let item = localStorage.getItem(i.toString());
+        if (item !== null) {
+            cart.push(JSON.parse(item));
+        }
+    }
+    return (cart);
 }
