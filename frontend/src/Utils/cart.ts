@@ -1,10 +1,10 @@
 import type {Attribute} from "../Types/Attribute";
 
-let id = 0;
 let selectedAttributes : object = [];
 let attributeChecker : boolean = false;
 
 export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string) {
+    let id = localStorage.length;
     if (attributeChecker) {
         let item = {
             name: name,
