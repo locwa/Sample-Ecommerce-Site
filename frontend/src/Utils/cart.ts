@@ -56,5 +56,18 @@ export function cartTotal() {
             currency = item.currency
         }
     }
-    return `${currency}${total}`;
+    return `${currency}${total.toFixed(2)}`;
+}
+
+export function getSelectedAttributeItem(attrType : string, index: number) {
+    const newIndex : number = index + 1;
+    try {
+        const storage = localStorage.getItem(newIndex.toString())
+        if (storage != null) {
+            const cart = JSON.parse(storage);
+            return cart['selectedAttributes'][attrType];
+        }
+    } catch (err) {
+        console.error("Error parsing cart from localStorage", err);
+    }
 }
