@@ -19,7 +19,7 @@ export default function Layout(
                         onClick={() => setIsCartOpen(prev => !prev)}
                     />
 
-                    <div className="fixed right-15 bg-white h-[64vh] w-88 py-6 px-4 z-40">
+                    <div className="fixed right-15 bg-white h-8/12 w-96 py-6 px-4 z-40">
                         <div className="flex my-6">
                             <h5 className="mr-2">My Bag,</h5>
                             <p>{` ${Object.keys(getCart()).length} items`}</p>
