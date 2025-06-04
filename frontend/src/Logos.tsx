@@ -1,33 +1,16 @@
 export function Cart(){
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 36 36">
-            <circle cx={13.33} cy={29.75} r={2.25} fill="currentColor"
-                    className="clr-i-outline clr-i-outline-path-1"></circle>
-            <circle cx={27} cy={29.75} r={2.25} fill="currentColor"
-                    className="clr-i-outline clr-i-outline-path-2"></circle>
-            <path fill="currentColor"
-                  d="M33.08 5.37a1 1 0 0 0-.77-.37H11.49l.65 2H31l-2.67 12h-15L8.76 4.53a1 1 0 0 0-.66-.65L4 2.62a1 1 0 1 0-.59 1.92L7 5.64l4.59 14.5l-1.64 1.34l-.13.13A2.66 2.66 0 0 0 9.74 25A2.75 2.75 0 0 0 12 26h16.69a1 1 0 0 0 0-2H11.84a.67.67 0 0 1-.56-1l2.41-2h15.44a1 1 0 0 0 1-.78l3.17-14a1 1 0 0 0-.22-.85"
-                  className="clr-i-outline clr-i-outline-path-3"></path>
-            <path fill="none" d="M0 0h36v36H0z"></path>
-        </svg>
-    )
-}
-
-export function LoadedCart(){
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={36} height={36} viewBox="0 0 36 36">
-            <circle cx={13.33} cy={29.75} r={2.25} fill="currentColor"
-                    className="clr-i-outline--badged clr-i-outline-path-1--badged"></circle>
-            <circle cx={27} cy={29.75} r={2.25} fill="currentColor"
-                    className="clr-i-outline--badged clr-i-outline-path-2--badged"></circle>
-            <path fill="currentColor" d="M22.57 7a7.5 7.5 0 0 1-.07-1a7.5 7.5 0 0 1 .07-1H11.49l.65 2Z"
-                  className="clr-i-outline--badged clr-i-outline-path-3--badged"></path>
-            <path fill="currentColor"
-                  d="M30 13.5h-.42L28.33 19h-15L8.76 4.53a1 1 0 0 0-.66-.65L4 2.62a1 1 0 1 0-.59 1.92L7 5.64l4.59 14.5l-1.64 1.34l-.13.13A2.66 2.66 0 0 0 9.74 25A2.75 2.75 0 0 0 12 26h16.69a1 1 0 0 0 0-2H11.84a.67.67 0 0 1-.56-1l2.41-2h15.44a1 1 0 0 0 1-.78l1.57-6.91a7.5 7.5 0 0 1-1.7.19"
-                  className="clr-i-outline--badged clr-i-outline-path-4--badged"></path>
-            <circle cx={30} cy={6} r={5} fill="currentColor"
-                    className="clr-i-outline--badged clr-i-outline-path-5--badged clr-i-badge"></circle>
-            <path fill="none" d="M0 0h36v36H0z"></path>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="23"
+            fill="none"
+            viewBox="0 0 20 19"
+        >
+            <path
+                fill="#43464E"
+                d="M19.561 3.874a2.06 2.06 0 0 0-1.579-.745H5.16l-.4-1.49C4.527.773 3.728.169 2.801.169H.653C.295.169 0 .45 0 .793c0 .343.294.625.653.625h2.148a.69.69 0 0 1 .673.503l2.57 9.787c.231.866 1.03 1.47 1.958 1.47h8.4c.927 0 1.749-.604 1.96-1.47l1.579-6.202a1.79 1.79 0 0 0-.38-1.632m-.904 1.349-1.58 6.202a.69.69 0 0 1-.673.503H8.002a.69.69 0 0 1-.674-.504L5.496 4.399h12.487c.21 0 .421.1.548.261.126.16.188.362.126.564M8.444 13.981c-1.2 0-2.19.947-2.19 2.094 0 1.148.99 2.094 2.19 2.094s2.19-.946 2.19-2.093-.99-2.095-2.19-2.095m0 2.92c-.484 0-.863-.363-.863-.826s.379-.826.863-.826c.485 0 .864.363.864.826 0 .444-.4.826-.864.826M15.688 13.981c-1.2 0-2.19.947-2.19 2.094 0 1.148.99 2.094 2.19 2.094s2.189-.946 2.189-2.094c-.02-1.147-.99-2.094-2.19-2.094m0 2.92c-.485 0-.864-.363-.864-.826s.38-.826.864-.826.863.363.863.826c0 .444-.4.826-.863.826"
+            ></path>
         </svg>
     )
 }
@@ -53,6 +36,52 @@ export function LeftCaret() {
     )
 }
 
+export function MinusButton() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <path stroke="#1D1F22" d="M.5.5h23v23H.5z"></path>
+            <path
+                stroke="#1D1F22"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 12h8"
+            ></path>
+        </svg>
+    )
+}
+
+export function PlusButton() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <g stroke="#1D1F22" clipPath="url(#clip0_92234_46)">
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8v8M8 12h8"
+                ></path>
+                <path d="M.5.5h23v23H.5z"></path>
+            </g>
+            <defs>
+                <clipPath id="clip0_92234_46">
+                    <path fill="#fff" d="M0 0h24v24H0z"></path>
+                </clipPath>
+            </defs>
+        </svg>
+    )
+}
+
 export function RightCaret() {
     return (
         <svg
@@ -72,3 +101,4 @@ export function RightCaret() {
         </svg>
     )
 }
+
