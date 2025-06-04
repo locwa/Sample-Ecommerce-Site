@@ -1,5 +1,5 @@
 import {Cart} from "../Logos.tsx";
-import {NavLink, useParams} from "react-router";
+import {Link, NavLink, useParams} from "react-router";
 import {getCart} from "../Utils/cart.ts";
 
 type NavlinkProps = {
@@ -47,7 +47,9 @@ export default function Navbar({ toggleCart }: { toggleCart: () => void }) {
                     name='TECH'
                 />
             </div>
-            <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
+            <Link to="/">
+                <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
+            </Link>
             <button onClick={toggleCart} className="hover:cursor-pointer w-10 h-10 flex items-center justify-center">
                 <div className="relative bottom-3 left-8 bg-black w-4 h-4 m-auto rounded-xl">
                     <p className="text-white text-xs">{Object.keys(getCart()).length}</p>
