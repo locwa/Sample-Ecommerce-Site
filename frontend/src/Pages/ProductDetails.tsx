@@ -54,8 +54,8 @@ export default function ProductDetails() {
         setAddToCartStatus(success)
     }
 
-    if (loading) return <p>Loading…</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    if (loading) return <Layout><p className="text-xl my-10">Loading...</p></Layout>;
+    if (error) return <Layout><p>Oops. It seems there is an error loading the product</p></Layout>;
 
     return (
         <Layout>
@@ -72,7 +72,7 @@ export default function ProductDetails() {
                         <button
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             disabled={!p.inStock}
-                            onClick={() => cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
+                            onClick={() => p.inStock ? cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0]) : ""}
                         >
                             ADD TO CART
                         </button>
