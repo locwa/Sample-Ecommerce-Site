@@ -49,8 +49,8 @@ export default function ProductDetails() {
 
     const [addToCartStatus, setAddToCartStatus] = useState(true);
 
-    const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[]) => {
-        const success = addToCart(name, price, currency, attributes);
+    const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[], photo : string) => {
+        const success = addToCart(name, price, currency, attributes, photo);
         setAddToCartStatus(success)
     }
 
@@ -72,8 +72,9 @@ export default function ProductDetails() {
                         <button
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             disabled={!p.inStock}
-                            onClick={() => cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes)}
-                        >ADD TO CART
+                            onClick={() => cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
+                        >
+                            ADD TO CART
                         </button>
                         <SanitizeHTML html={p.description} />
                     </div>

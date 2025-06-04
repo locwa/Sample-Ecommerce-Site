@@ -32,10 +32,9 @@ export default function Attributes({ items }: { items: Attribute[] }) {
                                 id={item.id}
                                 type={attr.type}
                                 itemValue={item.value}
-                                itemDisplayValue={item.displayValue}
                                 selectedId={selectedByAttr[attr.id] || null}
                                 onSelect={() => handleSelect(attr.id, item.id)}
-                                size="md"
+                                mode="productDetails"
                             />
                         ))}
                     </div>
