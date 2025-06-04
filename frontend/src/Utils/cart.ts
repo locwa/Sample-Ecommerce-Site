@@ -4,14 +4,16 @@ let id = 0;
 let selectedAttributes : object = [];
 let attributeChecker : boolean = false;
 
-export function addToCart (name : string, price : number, currency : string, attributes: Attribute[]) {
+export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string) {
     if (attributeChecker) {
         let item = {
             name: name,
             price: price,
             currency: currency,
             selectedAttributes: selectedAttributes,
-            productAttributes: attributes
+            productAttributes: attributes,
+            quantity: 1,
+            photo: photo
         };
         localStorage.setItem(id.toString(), JSON.stringify(item))
         id++
@@ -41,4 +43,18 @@ export function getCart(){
         }
     }
     return (cart);
+}
+
+export function cartTotal() {
+    let total = 0;
+    let currency = "";
+    for (let i = 0; i < localStorage.length; i++){
+        let itemObj = localStorage.getItem(i.toString());
+        if (itemObj !== null) {
+            let item = JSON.parse(itemObj);
+            total += item.price * item.quantity;
+            currency = item.currency
+        }
+    }
+    return `${currency}${total}`;
 }
