@@ -8,6 +8,7 @@ import Attributes from "../Components/Attributes.tsx";
 import {useState} from "react";
 import Layout from "../Layout.tsx";
 import type {Attribute} from "../Types/Attribute";
+import {useCart} from "../CartContext.tsx";
 
 const GET_PRODUCT = gql`
     query GetProduct($productId: String ) {
@@ -49,9 +50,15 @@ export default function ProductDetails() {
 
     const [addToCartStatus, setAddToCartStatus] = useState(true);
 
+    const { openCart, refreshCart } = useCart();
+
     const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[], photo : string) => {
         const success = addToCart(name, price, currency, attributes, photo);
         setAddToCartStatus(success)
+        if (success) {
+            refreshCart();
+            openCart();
+        }
     }
 
     if (loading) return <Layout><p className="text-xl my-10">Loading...</p></Layout>;
@@ -72,7 +79,7 @@ export default function ProductDetails() {
                         <button
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             disabled={!p.inStock}
-                            onClick={() => p.inStock ? cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0]) : ""}
+                            onClick={() => p.inStock &&  cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
                         >
                             ADD TO CART
                         </button>
