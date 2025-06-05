@@ -38,15 +38,12 @@ export function setAttributes(attributes : object, objectCount : number) {
 export function getCart(){
     localStorage.removeItem("loglevel")
     let cart = []
-    for (let i = 0; i < localStorage.length; i++){
-        let key = localStorage.key(i)
-        if (key != null) {
-            let item = localStorage.getItem(key);
-            if (item !== null) {
-                cart.push(JSON.parse(item));
-            }
+    const keys = Object.keys(localStorage).sort()
+    for (let i = 0; i < keys.length; i++){
+        let item = localStorage.getItem(keys[i]);
+        if (item !== null) {
+            cart.push(JSON.parse(item));
         }
-
     }
     return (cart);
 }
@@ -71,16 +68,13 @@ export function cartTotal() {
 
 export function getSelectedAttributeItem(attrType : string, index: number) {
     localStorage.removeItem("loglevel")
+    const keys = Object.keys(localStorage).sort()
     try {
-        let key = localStorage.key(index)
-        if (key != null) {
-            const storage = localStorage.getItem(key)
-            if (storage != null) {
-                const cart = JSON.parse(storage);
-                return cart['selectedAttributes'][attrType];
-            }
+        const storage = localStorage.getItem(keys[index])
+        if (storage != null) {
+            const cart = JSON.parse(storage);
+            return cart['selectedAttributes'][attrType];
         }
-
     } catch (err) {
         console.error("Error parsing cart from localStorage", err);
     }
