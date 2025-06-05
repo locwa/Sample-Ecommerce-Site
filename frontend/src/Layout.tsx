@@ -1,35 +1,16 @@
 import Navbar from "./Components/Navbar.tsx";
 import CartItems from "./Components/CartItems.tsx";
 import { useCart } from './CartContext';
-import {cartTotal} from "./Utils/cart.ts";
-
-function CartLayout() {
-    return (
-        <>
-            <CartItems/>
-            <div className="my-8">
-                <div className="flex justify-between mb-4">
-                    <h4 className="text-lg">Total</h4>
-                    <h4 className="text-lg">{cartTotal()}</h4>
-                </div>
-                <button
-                    className="w-full py-3 mb-6 text-white bg-[#5ECE7B] hover:cursor-pointer"
-                >
-                    PLACE ORDER
-                </button>
-            </div>
-        </>
-    )
-}
 
 export default function Layout(
-    {children}: { children: React.ReactNode },
+    {children} : { children : React.ReactNode },
+
 ) {
-    const {isCartOpen, toggleCart, cartCount} = useCart();
-    return (
+    const { isCartOpen, toggleCart, cartCount } = useCart();
+    return(
         <>
             <title>OmniShop</title>
-            <Navbar/>
+            <Navbar />
             {isCartOpen && (
                 <>
                     <div
@@ -43,7 +24,7 @@ export default function Layout(
                             <p>{` ${cartCount} items`}</p>
                         </div>
                         <div className="text-center">
-                            {cartCount ? <CartLayout/> : "no items"}
+                            {cartCount ? <CartItems/> : "no items"}
                         </div>
                     </div>
                 </>
