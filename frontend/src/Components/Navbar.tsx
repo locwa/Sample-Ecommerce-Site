@@ -1,6 +1,7 @@
 import {Cart} from "../Logos.tsx";
 import {Link, NavLink, useParams} from "react-router";
 import {getCart} from "../Utils/cart.ts";
+import {useCart} from "../CartContext.tsx";
 
 type NavlinkProps = {
     isActive: boolean,
@@ -25,9 +26,9 @@ function NavlinkComponent(
     }
 }
 
-export default function Navbar({ toggleCart }: { toggleCart: () => void }) {
+export default function Navbar() {
     const {category} = useParams();
-
+    const {toggleCart} = useCart();
     return (
         <nav className='sticky top-0 z-50 bg-white w-full flex justify-between items-center px-10 py-2 bg-white z-2'>
             <div className='flex gap-10'>
