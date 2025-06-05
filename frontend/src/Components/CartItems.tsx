@@ -1,16 +1,45 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem} from "../Utils/cart.ts";
+import {getCart, getSelectedAttributeItem} from "../Utils/cart.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
+import {useState} from "react";
 
 export default function CartItems() {
     const cartItems : CartItems[] = getCart();
 
+    const [itemQty, setItemQty] = useState(1);
+
+    const editItemQty = (buttonType : string, index : number)=>  {
+        const newIndex : number = index + 1;
+        let quantity = 0;
+        const storage = localStorage.getItem(newIndex.toString());
+        if (storage != null){
+            let item = JSON.parse(storage)
+            let itemStringified = "";
+            if (buttonType == "plus") {
+                item["quantity"] = item["quantity"] + 1;
+                itemStringified = JSON.stringify(item)
+                localStorage.setItem(newIndex.toString(), itemStringified)
+                quantity = item["quantity"];
+            }
+            else if (buttonType == "minus") {
+                item["quantity"] = item["quantity"] - 1;
+                if (item["quantity"] !== 0) {
+                    itemStringified = JSON.stringify(item);
+                    localStorage.setItem(newIndex.toString(), itemStringified);
+                    quantity = item["quantity"];
+                } else {
+                    localStorage.removeItem(newIndex.toString());
+                }
+            }
+        }
+        setItemQty(quantity);
+    }
 
     return (
         <>
-            <div className="text-left overflow-y-scroll max-h-[40vh] scrollbar-slim">
+            <div className="text-left overflow-y-scroll h-[40vh] scrollbar-slim">
                 {cartItems.reverse().map((cartItem, index1) => (
                     <div key={index1} className="mt-2 mb-7" id={index1.toString()}>
                         <div className="flex gap-4">
@@ -28,7 +57,7 @@ export default function CartItems() {
                                                     type={attr.type}
                                                     itemValue={item.value}
                                                     selectedId={getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1))}
-                                                    onSelect={() => console.log((cartItems.length - 1 - index1 + 1))}
+                                                    onSelect={() => console.log(getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1)))}
                                                     mode="cart"
                                                 />
                                             ))}
@@ -37,25 +66,18 @@ export default function CartItems() {
                                 ))}
                             </div>
                             <div key={index1} className="flex flex-col justify-between mb-4">
-                                <PlusButton />
-                                <p className="text-center">{cartItem.quantity}</p>
-                                <MinusButton />
+                                <button onClick={() => editItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                    <PlusButton />
+                                </button>
+                                    <p className="text-center">{itemQty}</p>
+                                <button onClick={() => editItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                    <MinusButton />
+                                </button>
                             </div>
                             <img src={cartItem.photo} alt="" className="max-w-[8rem] min-w-[8rem] h-auto object-scale-down"/>
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="my-8">
-                <div className="flex justify-between mb-4">
-                    <h4 className="text-lg">Total</h4>
-                    <h4 className="text-lg">{ cartTotal()}</h4>
-                </div>
-                <button
-                    className="w-full py-3 mb-6 text-white bg-[#5ECE7B] hover:cursor-pointer"
-                >
-                    PLACE ORDER
-                </button>
             </div>
         </>
     );
