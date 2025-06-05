@@ -1,46 +1,71 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, getSelectedAttributeItem} from "../Utils/cart.ts";
+import {getCart, cartTotal, getSelectedAttributeItem} from "../Utils/cart.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
-import {useState} from "react";
+import {useCart} from "../CartContext.tsx";
+import {useEffect, useState} from "react";
+
+function CartFooter() {
+    return (
+        <div className="my-8">
+            <div className="flex justify-between mb-4">
+                <h4 className="text-lg">Total</h4>
+                <h4 className="text-lg">{cartTotal()}</h4>
+            </div>
+            <button
+                className="w-full py-3 mb-6 text-white bg-[#5ECE7B] hover:cursor-pointer"
+            >
+                PLACE ORDER
+            </button>
+        </div>
+    )
+}
 
 export default function CartItems() {
-    const cartItems : CartItems[] = getCart();
+    const [cartItems, setCartItems] = useState<CartItems[]>(getCart());
+    const {refreshCart} = useCart();
 
-    const [itemQty, setItemQty] = useState(1);
+    useEffect(() => {
+        setCartItems(getCart());
+    }, [refreshCart]);
 
-    const editItemQty = (buttonType : string, index : number)=>  {
-        const newIndex : number = index + 1;
-        let quantity = 0;
-        const storage = localStorage.getItem(newIndex.toString());
-        if (storage != null){
-            let item = JSON.parse(storage)
-            let itemStringified = "";
-            if (buttonType == "plus") {
-                item["quantity"] = item["quantity"] + 1;
-                itemStringified = JSON.stringify(item)
-                localStorage.setItem(newIndex.toString(), itemStringified)
-                quantity = item["quantity"];
-            }
-            else if (buttonType == "minus") {
-                item["quantity"] = item["quantity"] - 1;
-                if (item["quantity"] !== 0) {
-                    itemStringified = JSON.stringify(item);
-                    localStorage.setItem(newIndex.toString(), itemStringified);
-                    quantity = item["quantity"];
-                } else {
-                    localStorage.removeItem(newIndex.toString());
+    const updateAndRefreshCart = () => {
+        setCartItems(getCart());
+        refreshCart();
+    };
+
+    const editItemQty = (buttonType: string, index: number) => {
+        localStorage.removeItem("loglevel")
+        let key = localStorage.key(index);
+        if (key != null) {
+            const storage = localStorage.getItem(key);
+            if (storage != null) {
+                let item = JSON.parse(storage)
+                let itemStringified = "";
+                if (buttonType == "plus") {
+                    item["quantity"] = item["quantity"] + 1;
+                    itemStringified = JSON.stringify(item)
+                    localStorage.setItem(key, itemStringified)
+                }
+                else if (buttonType == "minus") {
+                    item["quantity"] = item["quantity"] - 1;
+                    if (item["quantity"] != 0) {
+                        itemStringified = JSON.stringify(item);
+                        localStorage.setItem(key, itemStringified);
+                    } else {
+                        localStorage.removeItem(key);
+                    }
                 }
             }
+            updateAndRefreshCart();
         }
-        setItemQty(quantity);
     }
 
     return (
         <>
-            <div className="text-left overflow-y-scroll h-[40vh] scrollbar-slim">
-                {cartItems.reverse().map((cartItem, index1) => (
+            <div className="text-left overflow-y-scroll min-h-[40vh] max-h-[40vh] scrollbar-slim">
+                {cartItems.slice().reverse().map((cartItem, index1) => (
                     <div key={index1} className="mt-2 mb-7" id={index1.toString()}>
                         <div className="flex gap-4">
                             <div className="max-w-[8rem] min-w-[8rem]">
@@ -57,7 +82,7 @@ export default function CartItems() {
                                                     type={attr.type}
                                                     itemValue={item.value}
                                                     selectedId={getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1))}
-                                                    onSelect={() => console.log(getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1)))}
+                                                    onSelect={() => console.log(cartItems.length - 1 - index1)}
                                                     mode="cart"
                                                 />
                                             ))}
@@ -69,7 +94,7 @@ export default function CartItems() {
                                 <button onClick={() => editItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <PlusButton />
                                 </button>
-                                    <p className="text-center">{itemQty}</p>
+                                    <p className="text-center">{cartItem.quantity}</p>
                                 <button onClick={() => editItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <MinusButton />
                                 </button>
@@ -79,6 +104,7 @@ export default function CartItems() {
                     </div>
                 ))}
             </div>
+            {cartItems.slice().length && <CartFooter/>}
         </>
     );
 }
