@@ -79,3 +79,27 @@ export function getSelectedAttributeItem(attrType : string, index: number) {
         console.error("Error parsing cart from localStorage", err);
     }
 }
+
+export function editItemQty(buttonType: string, index: number) {
+    localStorage.removeItem("loglevel")
+    const keys = Object.keys(localStorage).sort()
+    const storage = localStorage.getItem(keys[index]);
+    if (storage != null) {
+        let item = JSON.parse(storage)
+        let itemStringified = "";
+        if (buttonType == "plus") {
+            item["quantity"] = item["quantity"] + 1;
+            itemStringified = JSON.stringify(item)
+            localStorage.setItem(keys[index], itemStringified)
+        }
+        else if (buttonType == "minus") {
+            item["quantity"] = item["quantity"] - 1;
+            if (item["quantity"] != 0) {
+                itemStringified = JSON.stringify(item);
+                localStorage.setItem(keys[index], itemStringified);
+            } else {
+                localStorage.removeItem(keys[index]);
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem} from "../Utils/cart.ts";
+import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cart.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
@@ -30,35 +30,11 @@ export default function CartItems() {
         setCartItems(getCart());
     }, [refreshCart]);
 
-    const updateAndRefreshCart = () => {
+    const updateAndRefreshCart = (buttonType: string, index: number) => {
+        editItemQty(buttonType, index)
         setCartItems(getCart());
         refreshCart();
     };
-
-    const editItemQty = (buttonType: string, index: number) => {
-        localStorage.removeItem("loglevel")
-        const keys = Object.keys(localStorage).sort()
-        const storage = localStorage.getItem(keys[index]);
-        if (storage != null) {
-            let item = JSON.parse(storage)
-            let itemStringified = "";
-            if (buttonType == "plus") {
-                item["quantity"] = item["quantity"] + 1;
-                itemStringified = JSON.stringify(item)
-                localStorage.setItem(keys[index], itemStringified)
-            }
-            else if (buttonType == "minus") {
-                item["quantity"] = item["quantity"] - 1;
-                if (item["quantity"] != 0) {
-                    itemStringified = JSON.stringify(item);
-                    localStorage.setItem(keys[index], itemStringified);
-                } else {
-                    localStorage.removeItem(keys[index]);
-                }
-            }
-            updateAndRefreshCart();
-        }
-    }
 
     return (
         <>
@@ -89,11 +65,11 @@ export default function CartItems() {
                                 ))}
                             </div>
                             <div key={index1} className="flex flex-col justify-between mb-4">
-                                <button onClick={() => editItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                <button onClick={() => updateAndRefreshCart("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <PlusButton />
                                 </button>
                                     <p className="text-center">{cartItem.quantity}</p>
-                                <button onClick={() => editItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                <button onClick={() => updateAndRefreshCart("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <MinusButton />
                                 </button>
                             </div>
