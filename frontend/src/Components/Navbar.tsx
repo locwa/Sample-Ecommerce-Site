@@ -28,10 +28,10 @@ function NavlinkComponent(
 
 export default function Navbar() {
     const {category} = useParams();
-    const {toggleCart} = useCart();
+    const {isCartOpen, closeCart, toggleCart} = useCart();
     return (
-        <nav className='sticky top-0 z-50 bg-white w-full flex justify-between items-center px-10 py-2 bg-white z-2'>
-            <div className='flex gap-10'>
+        <nav className='sticky top-0 z-50 bg-white w-full flex justify-between items-center px-10 py-2 bg-white z-2' onClick={ () => isCartOpen && closeCart()}>
+            <div className='flex gap-10' >
                 <NavlinkComponent
                     path='/'
                     isActive={(category == undefined) && (category !== 'clothes' || category !== 'tech')}
