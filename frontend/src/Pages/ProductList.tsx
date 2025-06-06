@@ -1,8 +1,63 @@
 import "../App.css"
-import ProductCards from "../Components/ProductCards.tsx";
 import {useParams} from "react-router";
 import Layout from "../Layout.tsx";
+import {gql, useQuery} from "@apollo/client";
+import type {ProductsData} from "../Types/ProductTypes";
+import ProductCard from "../Components/ProductCard.tsx";
 
+
+const GET_PRODUCTS = gql`
+    query GetProducts($category: String) {
+        products(category: $category){
+            id
+            name
+            inStock
+            gallery
+             attributes{
+              id
+              items{
+                displayValue
+                value
+                id
+              }
+              name
+              type
+            }
+            prices{
+                amount
+                currency{
+                    symbol
+                }
+            }
+        }
+    }
+`;
+
+
+function ProductCards({ category }: { category?: string }){
+
+    const { data, error, loading } = useQuery<ProductsData>(GET_PRODUCTS, {
+        variables: category ? { category } : {},
+    });
+
+
+    if (loading) return <p className="text-xl my-10">Loading...</p>;
+    if (error) return <p>Oops. It seems there is an error loading all products</p>;
+
+    return (
+        <div className="flex flex-wrap gap-12">
+            {data?.products.map(({ id, name, gallery, prices, inStock }) => (
+                <ProductCard
+                    id={id}
+                    name={name}
+                    inStock={inStock}
+                    gallery={gallery}
+                    prices={prices}
+                />
+            ))}
+        </div>
+    );
+}
 
 export default function ProductList(){
     const { category } = useParams();
