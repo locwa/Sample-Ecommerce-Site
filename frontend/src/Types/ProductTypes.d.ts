@@ -5,7 +5,7 @@ type Currency = {
     symbol: string;
 }
 
-type Price = {
+export type Price = {
     amount: number;
     currency: Currency;
 }
