@@ -10,7 +10,7 @@ export default function Layout(
     return(
         <>
             <title>OmniShop</title>
-            <header>
+            <header className="sticky top-0 w-full h-full z-3">
                 <Navbar />
                 {isCartOpen && (
                         <>
