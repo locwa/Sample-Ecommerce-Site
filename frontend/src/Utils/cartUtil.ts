@@ -112,18 +112,6 @@ export function editItemQty(buttonType: string, index: number) {
     }
 }
 
-export function changeSelectedItem(attributeName : string, attributeItem : string, index : number) {
-    localStorage.removeItem("loglevel");
-    const keys = Object.keys(localStorage).sort();
-    const storage = localStorage.getItem(keys[index]);
-    if (storage != null) {
-        let item = JSON.parse(storage);
-        item["selectedAttributes"][attributeName] = attributeItem;
-        let itemStringified = JSON.stringify(item)
-        localStorage.setItem(keys[index], itemStringified)
-    }
-}
-
 function checkSimilarItem (name : string, selectedAttributes : object) {
     const keys = Object.keys(localStorage);
     let isSimilar = false;

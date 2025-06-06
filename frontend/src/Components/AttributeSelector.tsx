@@ -9,8 +9,8 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     let colorSwatch = ""
 
     if (mode === "productDetails") {
-        toggleStylingText = isSelected ? "bg-black text-white px-5 py-3" : "bg-gray-100 px-5 py-3";
-        toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-8 h-8" : "w-8 h-8";
+        toggleStylingText = isSelected ? "bg-black text-white px-5 py-3 hover:cursor-pointer" : "bg-gray-100 px-5 py-3 hover:cursor-pointer";
+        toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-8 h-8 hover:cursor-pointer" : "w-8 h-8 hover:cursor-pointer";
         colorSwatch = "w-7 h-7 p-1 border border-black"
     } else if (mode === "cart") {
         toggleStylingText = isSelected ? "bg-black text-white px-3 py-1" : "bg-gray-100 px-3 py-1";
@@ -21,7 +21,7 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     return type === 'text' ? (
         <button
             key={id}
-            className={"border text-sm hover:cursor-pointer " + toggleStylingText}
+            className={"border text-sm " + toggleStylingText}
             onClick={() => onSelect(id)}
         >
             {type === 'text' ? itemValue : ""}
@@ -29,7 +29,7 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     ) : (
         <button
             key={id}
-            className={"flex items-center justify-center hover:cursor-pointer " + toggleStylingSwatch}
+            className={"flex items-center justify-center " + toggleStylingSwatch}
             onClick={() => onSelect(id)}
         >
             <div

@@ -1,5 +1,5 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem, editItemQty, changeSelectedItem} from "../Utils/cartUtil.ts";
+import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cartUtil.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
@@ -35,11 +35,6 @@ export default function CartItems() {
         setCartItems(getCart());
         refreshCart();
     };
-    const handleSelect = (attributeName : string, attributeItem : string, index: number) => {
-        changeSelectedItem(attributeName, attributeItem, index)
-        setCartItems(getCart());
-        refreshCart();
-    }
 
     return (
         <>
@@ -61,7 +56,7 @@ export default function CartItems() {
                                                     type={attr.type}
                                                     itemValue={item.value}
                                                     selectedId={getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1))}
-                                                    onSelect={() => handleSelect(attr.id, item.id, (cartItems.length - 1 - index1))}
+                                                    onSelect={() => ""}
                                                     mode="cart"
                                                 />
                                             ))}
