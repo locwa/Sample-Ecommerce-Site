@@ -103,3 +103,17 @@ export function editItemQty(buttonType: string, index: number) {
         }
     }
 }
+
+export function changeSelectedItem(attributeName : string, attributeItem : string, index : number) {
+    localStorage.removeItem("loglevel");
+    const keys = Object.keys(localStorage).sort();
+    const storage = localStorage.getItem(keys[index]);
+    if (storage != null) {
+        let item = JSON.parse(storage);
+        item["selectedAttributes"][attributeName] = attributeItem;
+        let itemStringified = JSON.stringify(item)
+        localStorage.setItem(keys[index], itemStringified)
+        console.log(item)
+    }
+    console.log(`${attributeName} ${attributeItem}`)
+}

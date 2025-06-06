@@ -1,5 +1,5 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cartUtil.ts";
+import {getCart, cartTotal, getSelectedAttributeItem, editItemQty, changeSelectedItem} from "../Utils/cartUtil.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
@@ -30,11 +30,16 @@ export default function CartItems() {
         setCartItems(getCart());
     }, [refreshCart]);
 
-    const updateAndRefreshCart = (buttonType: string, index: number) => {
+    const updateAndRefreshItemQty = (buttonType: string, index: number) => {
         editItemQty(buttonType, index)
         setCartItems(getCart());
         refreshCart();
     };
+    const handleSelect = (attributeName : string, attributeItem : string, index: number) => {
+        changeSelectedItem(attributeName, attributeItem, index)
+        setCartItems(getCart());
+        refreshCart();
+    }
 
     return (
         <>
@@ -56,7 +61,7 @@ export default function CartItems() {
                                                     type={attr.type}
                                                     itemValue={item.value}
                                                     selectedId={getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1))}
-                                                    onSelect={() => console.log(cartItems.length - 1 - index1)}
+                                                    onSelect={() => handleSelect(attr.id, item.id, (cartItems.length - 1 - index1))}
                                                     mode="cart"
                                                 />
                                             ))}
@@ -65,11 +70,11 @@ export default function CartItems() {
                                 ))}
                             </div>
                             <div key={index1} className="flex flex-col justify-between mb-4">
-                                <button onClick={() => updateAndRefreshCart("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                <button onClick={() => updateAndRefreshItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <PlusButton />
                                 </button>
                                     <p className="text-center">{cartItem.quantity}</p>
-                                <button onClick={() => updateAndRefreshCart("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                <button onClick={() => updateAndRefreshItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
                                     <MinusButton />
                                 </button>
                             </div>
