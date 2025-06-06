@@ -113,7 +113,5 @@ export function changeSelectedItem(attributeName : string, attributeItem : strin
         item["selectedAttributes"][attributeName] = attributeItem;
         let itemStringified = JSON.stringify(item)
         localStorage.setItem(keys[index], itemStringified)
-        console.log(item)
     }
-    console.log(`${attributeName} ${attributeItem}`)
 }
