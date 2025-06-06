@@ -12,7 +12,6 @@ export function addToCart (name : string, price : number, currency : string, att
             let fetchedItem = storage != null ? JSON.parse(storage) : ""
             fetchedItem["quantity"] += 1;
             localStorage.setItem(checkItem["key"], JSON.stringify(fetchedItem));
-            console.log("lol")
         } else {
             let id = Date.now()
             let item = {
