@@ -5,19 +5,27 @@ let attributeChecker : boolean = false;
 
 export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string) {
     localStorage.removeItem("loglevel")
-    let id = Date.now()
+    let checkItem = checkSimilarItem(name, selectedAttributes);
     if (attributeChecker) {
-        let item = {
-            name: name,
-            price: price,
-            currency: currency,
-            selectedAttributes: selectedAttributes,
-            productAttributes: attributes,
-            quantity: 1,
-            photo: photo
-        };
-        localStorage.setItem(id.toString(), JSON.stringify(item))
-        id++
+        if (checkItem["result"]){
+            const storage = localStorage.getItem(checkItem["key"]);
+            let fetchedItem = storage != null ? JSON.parse(storage) : ""
+            fetchedItem["quantity"] += 1;
+            localStorage.setItem(checkItem["key"], JSON.stringify(fetchedItem));
+            console.log("lol")
+        } else {
+            let id = Date.now()
+            let item = {
+                name: name,
+                price: price,
+                currency: currency,
+                selectedAttributes: selectedAttributes,
+                productAttributes: attributes,
+                quantity: 1,
+                photo: photo
+            };
+            localStorage.setItem(id.toString(), JSON.stringify(item))
+        }
         return true;
     } else {
         return false;
@@ -113,5 +121,36 @@ export function changeSelectedItem(attributeName : string, attributeItem : strin
         item["selectedAttributes"][attributeName] = attributeItem;
         let itemStringified = JSON.stringify(item)
         localStorage.setItem(keys[index], itemStringified)
+    }
+}
+
+function checkSimilarItem (name : string, selectedAttributes : object) {
+    const keys = Object.keys(localStorage);
+    let isSimilar = false;
+    let key : string = ""
+    for (let i = 0; i < keys.length; i++) {
+        const fetchedCart = localStorage.getItem(keys[i]);
+        const parsedCart = fetchedCart != null ? JSON.parse(fetchedCart) : "";
+        const itemFromCart = {
+            name: parsedCart["name"],
+            selectedAttributes: parsedCart["selectedAttributes"]
+        }
+        const itemFromParams = {
+            name: name,
+            selectedAttributes: selectedAttributes
+        }
+
+        if (JSON.stringify(itemFromCart) === JSON.stringify(itemFromParams)) {
+            isSimilar = true;
+            key = keys[i]
+            break;
+        } else {
+            isSimilar = false;
+        }
+        console.log(itemFromCart)
+    }
+    return {
+        result: isSimilar,
+        key: key
     }
 }
