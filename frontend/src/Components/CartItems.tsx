@@ -37,25 +37,23 @@ export default function CartItems() {
 
     const editItemQty = (buttonType: string, index: number) => {
         localStorage.removeItem("loglevel")
-        let key = localStorage.key(index);
-        if (key != null) {
-            const storage = localStorage.getItem(key);
-            if (storage != null) {
-                let item = JSON.parse(storage)
-                let itemStringified = "";
-                if (buttonType == "plus") {
-                    item["quantity"] = item["quantity"] + 1;
-                    itemStringified = JSON.stringify(item)
-                    localStorage.setItem(key, itemStringified)
-                }
-                else if (buttonType == "minus") {
-                    item["quantity"] = item["quantity"] - 1;
-                    if (item["quantity"] != 0) {
-                        itemStringified = JSON.stringify(item);
-                        localStorage.setItem(key, itemStringified);
-                    } else {
-                        localStorage.removeItem(key);
-                    }
+        const keys = Object.keys(localStorage).sort()
+        const storage = localStorage.getItem(keys[index]);
+        if (storage != null) {
+            let item = JSON.parse(storage)
+            let itemStringified = "";
+            if (buttonType == "plus") {
+                item["quantity"] = item["quantity"] + 1;
+                itemStringified = JSON.stringify(item)
+                localStorage.setItem(keys[index], itemStringified)
+            }
+            else if (buttonType == "minus") {
+                item["quantity"] = item["quantity"] - 1;
+                if (item["quantity"] != 0) {
+                    itemStringified = JSON.stringify(item);
+                    localStorage.setItem(keys[index], itemStringified);
+                } else {
+                    localStorage.removeItem(keys[index]);
                 }
             }
             updateAndRefreshCart();
