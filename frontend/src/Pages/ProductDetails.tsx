@@ -1,6 +1,6 @@
 import ImageCarousel from "../Components/ImageCarousel.tsx";
 import SanitizeHTML from "../Components/SanitizeHTML.tsx";
-import {addToCart} from "../Utils/cart.ts";
+import {addToCart} from "../Utils/cartUtil.ts";
 import {useParams} from "react-router";
 import type {ProductsData} from "../Types/ProductTypes";
 import {gql, useQuery} from "@apollo/client";

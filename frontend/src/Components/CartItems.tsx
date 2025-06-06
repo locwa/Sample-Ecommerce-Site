@@ -1,5 +1,5 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cart.ts";
+import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cartUtil.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"

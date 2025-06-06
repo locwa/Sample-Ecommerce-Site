@@ -1,6 +1,6 @@
 import {Cart} from "../Logos.tsx";
 import {Link, NavLink, useParams} from "react-router";
-import {getCart} from "../Utils/cart.ts";
+import {getCart} from "../Utils/cartUtil.ts";
 import {useCart} from "../CartContext.tsx";
 
 type NavlinkProps = {

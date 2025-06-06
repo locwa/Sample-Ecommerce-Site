@@ -1,7 +1,7 @@
 import type {Attribute} from "../Types/Attribute";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {useState} from "react";
-import {setAttributes} from "../Utils/cart.ts";
+import {setAttributes} from "../Utils/cartUtil.ts";
 
 export default function Attributes({ items }: { items: Attribute[] }) {
     const [selectedByAttr, setSelectedByAttr] = useState<Record<string, string | null>>({});

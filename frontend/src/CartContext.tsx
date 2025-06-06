@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import {getCart} from "./Utils/cart.ts";
+import {getCart} from "./Utils/cartUtil.ts";
 
 type CartContextType = {
     isCartOpen: boolean;
