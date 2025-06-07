@@ -70,6 +70,11 @@ export default function ProductDetails() {
         }
     }
 
+    const isAttributesComplete = (attributes : Attribute[]) => {
+        return (Object.keys(attributes).length) === (Object.keys(selectedAttributes).length)
+    }
+
+
     if (loading) return <Layout><p className="text-xl my-10">Loading...</p></Layout>;
     if (error) return <Layout><p>Oops. It seems there is an error loading the product</p></Layout>;
 
@@ -89,9 +94,11 @@ export default function ProductDetails() {
                         <h3 className="text-3xl mb-4">{p.prices.currency.symbol}{p.prices.amount}</h3>
                         {!addToCartStatus && <p className="text-red-700 mb-4">Please select one from all attributes</p>}
                         <button
-                            className={"w-1/2 py-4 mb-8 text-white " + (p.inStock ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
-                            disabled={!p.inStock}
-                            onClick={() => p.inStock &&  cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
+                            className={"w-1/2 py-4 mb-8 text-white " + (p.inStock && isAttributesComplete(p.attributes) ?
+                                "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
+                            disabled={!p.inStock && isAttributesComplete(p.attributes)}
+                            onClick={() => (p.inStock && isAttributesComplete(p.attributes)) &&
+                                cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
                         >
                             ADD TO CART
                         </button>
