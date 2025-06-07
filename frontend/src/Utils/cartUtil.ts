@@ -123,10 +123,10 @@ function checkSimilarItem (name : string, selectedAttributes : object) {
     }
 }
 
-export function quickAddToCart(name: string, price: number, currency: string, attributes: Attribute[], photo: string) {
+export function quickShop(name: string, price: number, currency: string, attributes: Attribute[], photo: string) {
     let selectedAttributes: { [key: string]: string } = {};
     for (let i = 0; i < Object.keys(attributes).length; i++){
-        selectedAttributes[attributes[i]['id']] = attributes[i]['items'][0]['value']
+        selectedAttributes[attributes[i]['id']] = attributes[i]['items'][0]['id']
     }
-    console.log(selectedAttributes)
+    return addToCart(name, price, currency, attributes, photo, selectedAttributes);
 }
