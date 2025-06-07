@@ -55,7 +55,7 @@ export default function Navbar() {
                 <div className="relative bottom-3 left-8 bg-black w-4 h-4 m-auto rounded-xl">
                     <p className="text-white text-xs">{Object.keys(getCart()).length}</p>
                 </div>
-                <Cart/>
+                <Cart fill="#43464E"/>
             </button>
         </nav>
     )
