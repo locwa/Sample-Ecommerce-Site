@@ -13,15 +13,15 @@ const GET_PRODUCTS = gql`
             name
             inStock
             gallery
-             attributes{
-              id
-              items{
-                displayValue
-                value
+            attributes{
                 id
-              }
-              name
-              type
+                items{
+                  displayValue
+                  value
+                  id
+                }
+                name
+                type
             }
             prices{
                 amount
@@ -38,6 +38,7 @@ function ProductCards({ category }: { category?: string }){
 
     const { data, error, loading } = useQuery<ProductsData>(GET_PRODUCTS, {
         variables: category ? { category } : {},
+        fetchPolicy: 'no-cache'
     });
 
 
@@ -46,14 +47,17 @@ function ProductCards({ category }: { category?: string }){
 
     return (
         <div className="flex flex-wrap gap-12">
-            {data?.products.map(({ id, name, gallery, prices, inStock }) => (
-                <ProductCard
-                    id={id}
-                    name={name}
-                    inStock={inStock}
-                    gallery={gallery}
-                    prices={prices}
-                />
+            {data?.products.map(({ id, name, gallery, prices, inStock, attributes }) => (
+                <div key={id}>
+                    <ProductCard
+                        id={id}
+                        name={name}
+                        inStock={inStock}
+                        gallery={gallery}
+                        prices={prices}
+                        attributes={attributes}
+                    />
+                </div>
             ))}
         </div>
     );
@@ -86,7 +90,7 @@ export default function ProductList(){
             content = (
                 <>
                     <h1 className='text-5xl font-bold'>All Products</h1>
-                    <ProductCards/>
+                    <ProductCards category="all"/>
                 </>
             )
 
