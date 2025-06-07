@@ -24,8 +24,9 @@ export default function Attributes({ items, onSelect }: AttributesProps) {
 
     useEffect(() => {
         const allSelected = Object.keys(selectedByAttr).length === items.length;
-        onSelect(allSelected ? selectedByAttr : {});
-    }, [selectedByAttr, items.length, onSelect]);
+        const selectionToReport = allSelected ? selectedByAttr : {};
+        onSelect(selectionToReport);
+    }, [selectedByAttr, items, onSelect]);
 
     return (
         <div className="my-6">

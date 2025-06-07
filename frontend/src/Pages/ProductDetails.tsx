@@ -5,7 +5,7 @@ import {useParams} from "react-router";
 import type {ProductsData} from "../Types/ProductTypes";
 import {gql, useQuery} from "@apollo/client";
 import Attributes from "../Components/Attributes.tsx";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import Layout from "../Layout.tsx";
 import type {Attribute} from "../Types/Attribute";
 import {useCart} from "../CartContext.tsx";
@@ -47,10 +47,16 @@ export default function ProductDetails() {
     });
 
     const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string>>({});
-
     const [addToCartStatus, setAddToCartStatus] = useState(true);
-
     const { openCart, refreshCart } = useCart();
+
+
+    const handleAttributeSelect = useCallback(
+        (selections: Record<string, string>) => {
+            setSelectedAttributes(selections);
+        },
+        [] // <-- empty array means this function identity is stable
+    );
 
     const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[], photo : string) => {
         if ((Object.keys(attributes).length) === (Object.keys(selectedAttributes).length)){
@@ -76,7 +82,7 @@ export default function ProductDetails() {
                         <h2 className="text-4xl">{`${p.brand}  ${p.name} `}</h2>
                         <Attributes
                             items={p.attributes}
-                            onSelect={(selections) => setSelectedAttributes(selections)}
+                            onSelect={handleAttributeSelect}
                         />
                         <h4 className="text-xl my-4">PRICE:</h4>
                         <h3 className="text-3xl mb-4">{p.prices.currency.symbol}{p.prices.amount}</h3>
