@@ -25,12 +25,12 @@ export default function Layout(
                                     <p>{` ${cartCount} items`}</p>
                                 </div>
                                 <div className="text-center">
-                                    {cartCount ? <CartItems/> : "no items"}
+                                    <CartItems/>
                                 </div>
                             </div>
                         </>
 
-                    )
+                )
                 }
             </header>
             <main className='p-12'>

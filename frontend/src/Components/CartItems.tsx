@@ -6,7 +6,7 @@ import {PlusButton, MinusButton} from "../Logos.tsx"
 import {useCart} from "../CartContext.tsx";
 import {useEffect, useState} from "react";
 
-function CartFooter() {
+function CartFooter({isEnabled} : {isEnabled : boolean}) {
     return (
         <div className="my-8">
             <div className="flex justify-between mb-4">
@@ -14,7 +14,7 @@ function CartFooter() {
                 <h4 className="text-lg">{cartTotal()}</h4>
             </div>
             <button
-                className="w-full py-3 mb-6 text-white bg-[#5ECE7B] hover:cursor-pointer"
+                className={"w-full py-3 mb-6 text-white " + (isEnabled ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
             >
                 PLACE ORDER
             </button>
@@ -35,6 +35,15 @@ export default function CartItems() {
         setCartItems(getCart());
         refreshCart();
     };
+
+    if (cartItems.slice().length == 0) {
+        return (
+            <>
+                <p className="overflow-y-scroll min-h-[40vh] max-h-[40vh] scrollbar-slim">Cart is empty</p>
+                <CartFooter isEnabled={!!cartItems.slice().length}/>
+            </>
+        )
+    }
 
     return (
         <>
@@ -78,7 +87,7 @@ export default function CartItems() {
                     </div>
                 ))}
             </div>
-            {cartItems.slice().length && <CartFooter/>}
+            <CartFooter isEnabled={!!cartItems.slice().length}/>
         </>
     );
 }
