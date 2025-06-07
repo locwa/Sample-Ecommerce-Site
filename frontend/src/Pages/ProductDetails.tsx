@@ -44,6 +44,7 @@ export default function ProductDetails() {
 
     const { data, error, loading } = useQuery<ProductsData>(GET_PRODUCT, {
         variables: product ? { productId: product } : {},
+        fetchPolicy: 'no-cache'
     });
 
     const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string>>({});
