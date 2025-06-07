@@ -63,8 +63,6 @@ export default function ProductDetails() {
         }
     }
 
-    console.log(selectedAttributes);
-
     if (loading) return <Layout><p className="text-xl my-10">Loading...</p></Layout>;
     if (error) return <Layout><p>Oops. It seems there is an error loading the product</p></Layout>;
 

@@ -122,3 +122,11 @@ function checkSimilarItem (name : string, selectedAttributes : object) {
         key: key
     }
 }
+
+export function quickAddToCart(name: string, price: number, currency: string, attributes: Attribute[], photo: string) {
+    let selectedAttributes: { [key: string]: string } = {};
+    for (let i = 0; i < Object.keys(attributes).length; i++){
+        selectedAttributes[attributes[i]['id']] = attributes[i]['items'][0]['value']
+    }
+    console.log(selectedAttributes)
+}
