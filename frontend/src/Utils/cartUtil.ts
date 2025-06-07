@@ -1,12 +1,8 @@
 import type {Attribute} from "../Types/Attribute";
 
-let selectedAttributes : object = [];
-let attributeChecker : boolean = false;
-
-export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string) {
+export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string, selectedAttributes: object) {
     localStorage.removeItem("loglevel")
     let checkItem = checkSimilarItem(name, selectedAttributes);
-    if (attributeChecker) {
         if (checkItem["result"]){
             const storage = localStorage.getItem(checkItem["key"]);
             let fetchedItem = storage != null ? JSON.parse(storage) : ""
@@ -26,22 +22,8 @@ export function addToCart (name : string, price : number, currency : string, att
             localStorage.setItem(id.toString(), JSON.stringify(item))
         }
         return true;
-    } else {
-        return false;
-    }
 }
 
-export function setAttributes(attributes : object, objectCount : number) {
-    const attributeCount = Object.keys(attributes).length;
-
-    if (attributeCount === objectCount){
-        selectedAttributes = attributes;
-        attributeChecker = true;
-    } else {
-        attributeChecker = false;
-    }
-
-}
 export function getCart(){
     localStorage.removeItem("loglevel")
     let cart = []
@@ -134,7 +116,6 @@ function checkSimilarItem (name : string, selectedAttributes : object) {
         } else {
             isSimilar = false;
         }
-        console.log(itemFromCart)
     }
     return {
         result: isSimilar,

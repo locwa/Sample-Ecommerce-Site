@@ -1,10 +1,14 @@
 import type {Attribute} from "../Types/Attribute";
 import AttributeSelector from "./AttributeSelector.tsx";
-import {useState} from "react";
-import {setAttributes} from "../Utils/cartUtil.ts";
+import {useEffect, useState} from "react";
 
-export default function Attributes({ items }: { items: Attribute[] }) {
-    const [selectedByAttr, setSelectedByAttr] = useState<Record<string, string | null>>({});
+type AttributesProps = {
+    items: Attribute[],
+    onSelect:  (selectedAttributes: Record<string, string>) => void;
+}
+
+export default function Attributes({ items, onSelect }: AttributesProps) {
+    const [selectedByAttr, setSelectedByAttr] = useState<Record<string, string>>({});
 
     const handleSelect = (attributeId: string, itemId: string) => {
         setSelectedByAttr(prev => {
@@ -18,7 +22,10 @@ export default function Attributes({ items }: { items: Attribute[] }) {
         });
     };
 
-    setAttributes(selectedByAttr, Object.keys(items).length);
+    useEffect(() => {
+        const allSelected = Object.keys(selectedByAttr).length === items.length;
+        onSelect(allSelected ? selectedByAttr : {});
+    }, [selectedByAttr, items.length, onSelect]);
 
     return (
         <div className="my-6">
