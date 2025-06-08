@@ -7,6 +7,8 @@ use App\Models\Products\AllProducts;
 use App\Models\Products\ClothesProducts;
 use App\Models\Products\TechProducts;
 use App\Types\CategoryType\CategoryType;
+use App\Types\OrderType\InputOrderType;
+use App\Types\OrderType\OrderType;
 use App\Types\ProductType\ProductType;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
@@ -22,7 +24,7 @@ class GraphQL {
 
             $productType = new ProductType();
             $categoryType = new CategoryType();
-
+            $orderType = new OrderType();
 
             $queryType = new ObjectType([
                 'name' => 'Query',
@@ -62,14 +64,16 @@ class GraphQL {
             $mutationType = new ObjectType([
                 'name' => 'Mutation',
                 'fields' => [
-                    'sum' => [
-                        'type' => Type::int(),
+                    'createOrder' => [
+                        'type' => Type::listOf($orderType),
                         'args' => [
-                            'x' => ['type' => Type::int()],
-                            'y' => ['type' => Type::int()],
+                            'order' => Type::nonNull(Type::listOf(new InputOrderType()))
                         ],
-                        'resolve' => static fn ($calc, array $args): int => $args['x'] + $args['y'],
-                    ],
+                        'resolve' => function ($root, $args) {
+
+                            return $args['order'];
+                        }
+                    ]
                 ],
             ]);
         
