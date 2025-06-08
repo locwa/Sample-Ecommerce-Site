@@ -1,6 +1,14 @@
 import type {Attribute} from "../Types/Attribute";
 
-export function addToCart (name : string, price : number, currency : string, attributes: Attribute[], photo : string, selectedAttributes: object) {
+export function addToCart (
+    name : string,
+    price : number,
+    currency : string,
+    attributes: Attribute[],
+    photo : string,
+    selectedAttributes: object,
+    productId: string,
+    brand: string) {
     localStorage.removeItem("loglevel")
     let checkItem = checkSimilarItem(name, selectedAttributes);
         if (checkItem["result"]){
@@ -11,6 +19,8 @@ export function addToCart (name : string, price : number, currency : string, att
         } else {
             let id = Date.now()
             let item = {
+                id : productId,
+                brand: brand,
                 name: name,
                 price: price,
                 currency: currency,
@@ -123,10 +133,17 @@ function checkSimilarItem (name : string, selectedAttributes : object) {
     }
 }
 
-export function quickShop(name: string, price: number, currency: string, attributes: Attribute[], photo: string) {
+export function quickShop(
+    name: string,
+    price: number,
+    currency: string,
+    attributes: Attribute[],
+    photo: string,
+    id: string,
+    brand: string) {
     let selectedAttributes: { [key: string]: string } = {};
     for (let i = 0; i < Object.keys(attributes).length; i++){
         selectedAttributes[attributes[i]['id']] = attributes[i]['items'][0]['id']
     }
-    return addToCart(name, price, currency, attributes, photo, selectedAttributes);
+    return addToCart(name, price, currency, attributes, photo, selectedAttributes, id, brand);
 }

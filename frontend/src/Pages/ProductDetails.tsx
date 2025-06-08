@@ -59,9 +59,16 @@ export default function ProductDetails() {
         [] // <-- empty array means this function identity is stable
     );
 
-    const cartButtonClick = (name : string, price : number, currency : string, attributes : Attribute[], photo : string) => {
+    const cartButtonClick = (
+        name : string,
+        price : number,
+        currency : string,
+        attributes : Attribute[],
+        photo : string,
+        id: string,
+        brand: string) => {
         if ((Object.keys(attributes).length) === (Object.keys(selectedAttributes).length)){
-            const success = addToCart(name, price, currency, attributes, photo, selectedAttributes);
+            const success = addToCart(name, price, currency, attributes, photo, selectedAttributes, id, brand);
             setAddToCartStatus(success)
             if (success) {
                 refreshCart();
@@ -98,7 +105,7 @@ export default function ProductDetails() {
                                 "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             disabled={!p.inStock && isAttributesComplete(p.attributes)}
                             onClick={() => (p.inStock && isAttributesComplete(p.attributes)) &&
-                                cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0])}
+                                cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0], p.id, p.brand)}
                         >
                             ADD TO CART
                         </button>

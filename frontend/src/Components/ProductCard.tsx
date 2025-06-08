@@ -14,9 +14,10 @@ type ProductCardParams = {
     gallery: string[];
     attributes: Attribute[];
     prices: Price;
+    brand: string;
 }
 
-export default function ProductCard({id, name, gallery, prices, inStock, attributes} : ProductCardParams){
+export default function ProductCard({id, name, gallery, prices, inStock, attributes, brand} : ProductCardParams){
     const [isHovered, setIsHovered] = useState(false)
     const { openCart, refreshCart } = useCart();
 
@@ -26,10 +27,10 @@ export default function ProductCard({id, name, gallery, prices, inStock, attribu
         currency: string,
         attributes: Attribute[],
         photo: string,
-
+        id: string,
+        brand: string
     ) => {
-        const success = quickShop(name, price, currency, attributes, photo);
-        console.log(success)
+        const success = quickShop(name, price, currency, attributes, photo, id, brand);
         if (success) {
             refreshCart();
             openCart();
@@ -45,7 +46,7 @@ export default function ProductCard({id, name, gallery, prices, inStock, attribu
             {(isHovered && inStock) && (
                 <button
                     className="bg-[#5ECE7B] h-13 w-13 rounded-[30px] absolute right-6 top-77 flex items-center justify-center hover:cursor-pointer z-2"
-                    onClick={() => addToCart(name, prices["amount"], prices["currency"]["symbol"], attributes , gallery[0])}
+                    onClick={() => addToCart(name, prices["amount"], prices["currency"]["symbol"], attributes , gallery[0], id, brand)}
                 >
                     <Cart fill={"#ffffff"} />
                 </button>

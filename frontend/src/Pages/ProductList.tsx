@@ -29,6 +29,7 @@ const GET_PRODUCTS = gql`
                     symbol
                 }
             }
+            brand
         }
     }
 `;
@@ -47,7 +48,7 @@ function ProductCards({ category }: { category?: string }){
 
     return (
         <div className="flex flex-wrap gap-12">
-            {data?.products.map(({ id, name, gallery, prices, inStock, attributes }) => (
+            {data?.products.map(({ id, brand, name, gallery, prices, inStock, attributes }) => (
                 <div key={id}>
                     <ProductCard
                         id={id}
@@ -56,6 +57,7 @@ function ProductCards({ category }: { category?: string }){
                         gallery={gallery}
                         prices={prices}
                         attributes={attributes}
+                        brand={brand}
                     />
                 </div>
             ))}
