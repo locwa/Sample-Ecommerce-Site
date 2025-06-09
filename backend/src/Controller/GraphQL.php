@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Models\Categories\Categories;
+use App\Models\Mutation\Mutation;
 use App\Models\Products\AllProducts;
 use App\Models\Products\ClothesProducts;
 use App\Models\Products\TechProducts;
@@ -70,7 +71,7 @@ class GraphQL {
                             'order' => Type::nonNull(Type::listOf(new InputOrderType()))
                         ],
                         'resolve' => function ($root, $args) {
-
+                            new Mutation($args['order']);
                             return $args['order'];
                         }
                     ]
