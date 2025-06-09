@@ -13,9 +13,6 @@ class InputOrderType extends InputObjectType
             'name' => 'orderList',
             'fields' => [
                 'id' => Type::string(),
-                'name' => Type::string(),
-                'price' => Type::float(),
-                'currency' => Type::string(),
                 'quantity' => Type::int(),
                 'selectedAttributes' => [
                     'type' => Type::listOf(new InputSelectedAttributes()),
