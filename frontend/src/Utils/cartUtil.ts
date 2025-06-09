@@ -147,3 +147,28 @@ export function quickShop(
     }
     return addToCart(name, price, currency, attributes, photo, selectedAttributes, id, brand);
 }
+
+export function cartItemsForMutation() {
+    let cart = [];
+    const keys = Object.keys(localStorage)
+    for (let i = 0; i < keys.length; i++){
+        const storage = localStorage.getItem(keys[i]);
+        if (storage != null){
+            const cartItem = JSON.parse(storage);
+            const selectedAttributeKeys = Object.keys(cartItem['selectedAttributes']);
+            let selectedAttributes = []
+            for (let j = 0; j < selectedAttributeKeys.length; j++){
+                selectedAttributes.push(
+                    { categoryName: selectedAttributeKeys[j], categoryValue: cartItem['selectedAttributes'][selectedAttributeKeys[j]] }
+                );
+            }
+            let item = {
+                id : cartItem['id'],
+                quantity: cartItem['quantity'],
+                selectedAttributes: selectedAttributes,
+            };
+            cart.push(item)
+        }
+    }
+    return cart;
+}
