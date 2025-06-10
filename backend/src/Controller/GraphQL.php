@@ -71,8 +71,8 @@ class GraphQL {
                             'order' => Type::nonNull(Type::listOf(new InputOrderType()))
                         ],
                         'resolve' => function ($root, $args) {
-                            new Mutation($args['order']);
-                            return $args['order'];
+                            $mutation = new Mutation();
+                            return $mutation->getItems($args['order']);
                         }
                     ]
                 ],
