@@ -10,7 +10,7 @@ class InputSelectedAttributes extends InputObjectType
     public function __construct()
     {
         parent::__construct([
-            'name' => 'selectedAttributes',
+            'name' => 'inputSelectedAttributes',
             'fields' => [
                 'categoryName' => Type::string(),
                 'categoryValue' => Type::string(),

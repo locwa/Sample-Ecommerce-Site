@@ -10,16 +10,11 @@ class InputOrderType extends InputObjectType
     public function __construct()
     {
         parent::__construct([
-            'name' => 'orderList',
+            'name' => 'InputOrderList',
             'fields' => [
-                'id' => Type::string(),
-                'quantity' => Type::int(),
-                'selectedAttributes' => [
-                    'type' => Type::listOf(new InputSelectedAttributes()),
-                    'resolve' => function ($attributes) {
-
-                    }
-                ],
+                'id' => Type::nonNull(Type::string()),
+                'quantity' => Type::nonNull(Type::int()),
+                'selectedAttributes' => Type::listOf(new InputSelectedAttributes()),
             ]
         ]);
     }
