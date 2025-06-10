@@ -5,4 +5,5 @@ export type AttributeSelector = {
     selectedId: string | null;
     onSelect: (id) => string | void;
     mode: string;
+    attrId?: string;
 }

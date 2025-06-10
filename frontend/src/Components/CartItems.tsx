@@ -40,7 +40,7 @@ function CartFooter({isEnabled} : {isEnabled : boolean}) {
         <div className="my-8">
             <div className="flex justify-between mb-4">
                 <h4 className="text-lg">Total</h4>
-                <h4 className="text-lg">{cartTotal()}</h4>
+                <h4 className="text-lg" data-testid="cart-total">{cartTotal()}</h4>
             </div>
             <button
                 className={"w-full py-3 mb-6 text-white " + (isEnabled ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
@@ -87,11 +87,15 @@ export default function CartItems() {
                                 {cartItem.productAttributes.map((attr, index2) => (
                                     <div key={index2} className="my-4">
                                         <p className="font-light">{attr.id}</p>
-                                        <div className="flex flex-wrap gap-2">
+                                        <div
+                                            className="flex flex-wrap gap-2"
+                                            data-testid={`cart-item-attribute-${attr.id}`}
+                                        >
                                             {attr.items.map((item: Items, index3 : number) => (
                                                 <AttributeSelector
                                                     key={index3}
                                                     id={item.id}
+                                                    attrId={attr.id}
                                                     type={attr.type}
                                                     itemValue={item.value}
                                                     selectedId={getSelectedAttributeItem(attr.id, (cartItems.length - 1 - index1))}
@@ -104,11 +108,17 @@ export default function CartItems() {
                                 ))}
                             </div>
                             <div key={index1} className="flex flex-col justify-between mb-4">
-                                <button onClick={() => updateAndRefreshItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                <button
+                                    onClick={() => updateAndRefreshItemQty("plus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer"
+                                    data-testid="cart-item-amount-increase"
+                                >
                                     <PlusButton />
                                 </button>
-                                    <p className="text-center">{cartItem.quantity}</p>
-                                <button onClick={() => updateAndRefreshItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer">
+                                    <p className="text-center" data-testid="cart-item-amount">{cartItem.quantity}</p>
+                                <button
+                                    onClick={() => updateAndRefreshItemQty("minus", (cartItems.length - 1 - index1))} className="hover:cursor-pointer"
+                                    data-testid="cart-item-amount-decrease"
+                                >
                                     <MinusButton />
                                 </button>
                             </div>

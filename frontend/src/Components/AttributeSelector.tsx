@@ -1,12 +1,14 @@
 
 import type {AttributeSelector} from "../Types/AttributeSelector";
 
-export default function AttributeSelector({id, type, itemValue, selectedId, onSelect, mode} : AttributeSelector) {
+export default function AttributeSelector({id, type, itemValue, selectedId, onSelect, mode, attrId} : AttributeSelector) {
     const isSelected = selectedId === id;
 
     let toggleStylingText = "";
     let toggleStylingSwatch = "";
-    let colorSwatch = ""
+    let colorSwatch = "";
+    let attributeName = attrId?.replaceAll(" ", "-");
+    let dataTestId = ""
 
     if (mode === "productDetails") {
         toggleStylingText = isSelected ? "bg-black text-white px-5 py-3 hover:cursor-pointer" : "bg-gray-100 px-5 py-3 hover:cursor-pointer";
@@ -15,13 +17,17 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     } else if (mode === "cart") {
         toggleStylingText = isSelected ? "bg-black text-white px-3 py-1" : "bg-gray-100 px-3 py-1";
         toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-6 h-6" : "w-6 h-6";
-        colorSwatch = "w-5 h-5 p-1 border border-black"
+        dataTestId = isSelected ? `cart-item-attribute-${attributeName}-${attributeName}-selected`:  `cart-item-attribute-${attributeName}-${attributeName}`
+        colorSwatch = "w-5 h-5 p-1 border border-black";
     }
 
     return type === 'text' ? (
         <button
             key={id}
             className={"border text-sm " + toggleStylingText}
+            {...(mode === "cart" && {
+                [`data-testid`]: dataTestId,
+            })}
             onClick={() => onSelect(id)}
         >
             {type === 'text' ? itemValue : ""}

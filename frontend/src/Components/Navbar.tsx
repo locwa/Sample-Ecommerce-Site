@@ -34,24 +34,27 @@ export default function Navbar() {
             <div className='flex gap-10' >
                 <NavlinkComponent
                     path='/'
-                    isActive={(category == undefined) && (category !== 'clothes' || category !== 'tech')}
+                    isActive={(category == undefined)}
+                    data-testid={category == undefined ? "category-link" : "active-category-link"}
                     name='ALL'
                 />
                 <NavlinkComponent
                     path='/clothes'
                     isActive={category == "clothes"}
+                    data-testid={category == "clothes" ? "category-link" : "active-category-link"}
                     name='CLOTHES'
                 />
                 <NavlinkComponent
                     path='/tech'
                     isActive={category == "tech"}
+                    data-testid={category == "tech" ? "category-link" : "active-category-link"}
                     name='TECH'
                 />
             </div>
             <Link to="/">
                 <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
             </Link>
-            <button onClick={toggleCart} className="hover:cursor-pointer w-10 h-10 flex items-center justify-center">
+            <button onClick={toggleCart} className="hover:cursor-pointer w-10 h-10 flex items-center justify-center" data-testid='cart-btn'>
                 <div className="relative bottom-3 left-8 bg-black w-4 h-4 m-auto rounded-xl">
                     <p className="text-white text-xs">{Object.keys(getCart()).length}</p>
                 </div>
