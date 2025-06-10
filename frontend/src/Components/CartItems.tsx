@@ -1,12 +1,41 @@
 import type {Items} from "../Types/Attribute";
-import {getCart, cartTotal, getSelectedAttributeItem, editItemQty} from "../Utils/cartUtil.ts";
+import {getCart, cartTotal, getSelectedAttributeItem, editItemQty, cartItemsForMutation} from "../Utils/cartUtil.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
 import {PlusButton, MinusButton} from "../Logos.tsx"
 import {useCart} from "../CartContext.tsx";
 import {useEffect, useState} from "react";
+import {gql, useMutation} from "@apollo/client";
+
+const SUBMIT_ORDER = gql`
+    mutation CreateOrder($order: [InputOrderList!]!) {
+      createOrder(order: $order) {
+        id
+        quantity
+        selectedAttributes {
+          categoryName
+          categoryValue
+        }
+      }
+    }
+`;
 
 function CartFooter({isEnabled} : {isEnabled : boolean}) {
+    const [submitOrder] = useMutation(SUBMIT_ORDER);
+
+    const { openCart, refreshCart } = useCart();
+
+    const handleSubmit = async () => {
+        await submitOrder({
+            variables: {
+                order: cartItemsForMutation()
+            }
+        });
+        localStorage.clear();
+        refreshCart();
+        openCart();
+    };
+
     return (
         <div className="my-8">
             <div className="flex justify-between mb-4">
@@ -15,6 +44,7 @@ function CartFooter({isEnabled} : {isEnabled : boolean}) {
             </div>
             <button
                 className={"w-full py-3 mb-6 text-white " + (isEnabled ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
+                onClick={() => cartTotal() && handleSubmit()}
             >
                 PLACE ORDER
             </button>

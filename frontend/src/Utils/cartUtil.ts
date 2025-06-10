@@ -106,7 +106,7 @@ export function editItemQty(buttonType: string, index: number) {
 function checkSimilarItem (name : string, selectedAttributes : object) {
     const keys = Object.keys(localStorage);
     let isSimilar = false;
-    let key : string = ""
+    let key : string = " "
     for (let i = 0; i < keys.length; i++) {
         const fetchedCart = localStorage.getItem(keys[i]);
         const parsedCart = fetchedCart != null ? JSON.parse(fetchedCart) : "";
