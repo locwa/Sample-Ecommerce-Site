@@ -12,6 +12,7 @@ class Mutation
         $orderListStmt = $db->prepare("INSERT INTO order_list (date) VALUES (CURRENT_TIMESTAMP)");
         $orderListStmt->execute();
         $orderId = $db->lastInsertId();
+        $result = [];
 
         foreach ($order as $itemIndex => $item) {
             $productId = $item['id'];
@@ -32,8 +33,12 @@ class Mutation
                 $stmt->execute([$orderId, $productId, $quantity, " ", " ", $itemIndex]);
             }
 
-
+            $result[] = [
+                'id' => $productId,
+                'quantity' => $quantity,
+                'selectedAttributes' => $selectedAttributes,
+            ];
         }
-
+        return $result;
     }
 }
