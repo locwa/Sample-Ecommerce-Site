@@ -17,7 +17,7 @@ class OrderType extends ObjectType
                 'selectedAttributes' => [
                     'type' => Type::listOf(new SelectedAttributes()),
                     'resolve' => function ($attributes) {
-
+                        return $attributes['selectedAttributes'];
                     }
                 ],
             ]
