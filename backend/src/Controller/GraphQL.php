@@ -11,6 +11,7 @@ use App\Types\CategoryType\CategoryType;
 use App\Types\OrderType\InputOrderType;
 use App\Types\OrderType\OrderType;
 use App\Types\ProductType\ProductType;
+use Dotenv\Dotenv;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -107,6 +108,11 @@ class GraphQL {
             ];
         }
 
+        $dotenv = Dotenv::createImmutable(__DIR__, '/../.env');
+        $dotenv->safeLoad();
+
+        header('Access-Control-Allow-Origin: '. $_ENV['FRONTEND_APP_URL']);
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
         header('Content-Type: application/json; charset=UTF-8');
         return json_encode($output);
     }
