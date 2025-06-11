@@ -16,11 +16,9 @@ const GET_PRODUCTS = gql`
             attributes{
                 id
                 items{
-                  displayValue
                   value
                   id
                 }
-                name
                 type
             }
             prices{
@@ -29,7 +27,6 @@ const GET_PRODUCTS = gql`
                     symbol
                 }
             }
-            brand
         }
     }
 `;
