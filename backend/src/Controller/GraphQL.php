@@ -24,13 +24,6 @@ class GraphQL {
     static public function handle() {
         try {
 
-            $dotenv = Dotenv::createImmutable(__DIR__, '/../.env');
-            $dotenv->safeLoad();
-
-            header('Access-Control-Allow-Origin: '. $_ENV['FRONTEND_APP_URL']);
-            header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-            header('Content-Type: application/json; charset=UTF-8');
-
             $productType = new ProductType();
             $categoryType = new CategoryType();
             $orderType = new OrderType();
@@ -131,6 +124,7 @@ class GraphQL {
             ];
         }
 
+        header('Content-Type: application/json; charset=UTF-8');
         return json_encode($output);
     }
 }
