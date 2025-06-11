@@ -52,11 +52,15 @@ class GraphQL {
                             'id' => Type::string()
                         ],
                         'resolve' => function ($root, $args){
-                            $products = match ($args['category']) {
-                                'clothes' => (new ClothesProducts())->getProductDetails($args['id']),
-                                'tech' => (new TechProducts())->getProductDetails($args['id']),
-                                default => (new AllProducts())->getProductDetails($args['id'])
-                            };
+                            if (isset($args['category'])) {
+                                $products = match ($args['category']) {
+                                    'clothes' => (new ClothesProducts())->getProductDetails($args['id']),
+                                    'tech' => (new TechProducts())->getProductDetails($args['id']),
+
+                                };
+                            } else{
+                                $products = (new AllProducts())->getProductDetails($args['id']);
+                            }
                             return $products;
                         },
                     ],
