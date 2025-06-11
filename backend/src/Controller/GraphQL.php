@@ -60,11 +60,19 @@ class GraphQL {
                         ],
                         'resolve' => function ($root, $args){
                             if (isset($args['category'])) {
-                                $products = match ($args['category']) {
-                                    'clothes' => (new ClothesProducts())->getProductDetails($args['id']),
-                                    'tech' => (new TechProducts())->getProductDetails($args['id']),
+                                if (isset($args['id'])) {
+                                    $products = match ($args['category']) {
+                                        'clothes' => (new ClothesProducts())->getProductDetails($args['id']),
+                                        'tech' => (new TechProducts())->getProductDetails($args['id']),
 
-                                };
+                                    };
+                                } else {
+                                    $products = match ($args['category']) {
+                                        'clothes' => (new ClothesProducts())->getProductDetails(),
+                                        'tech' => (new TechProducts())->getProductDetails(),
+
+                                    };
+                                }
                             } else{
                                 if (isset($args['id'])) {
                                     $products = (new AllProducts())->getProductDetails($args['id']);
