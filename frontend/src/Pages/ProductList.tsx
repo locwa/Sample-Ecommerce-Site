@@ -91,7 +91,7 @@ export default function ProductList(){
             content = (
                 <>
                     <h1 className='text-5xl font-bold'>All Products</h1>
-                    <ProductCards category="all"/>
+                    <ProductCards />
                 </>
             )
 
