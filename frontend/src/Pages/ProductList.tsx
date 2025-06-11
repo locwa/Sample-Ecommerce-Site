@@ -49,8 +49,8 @@ function ProductCards({ category }: { category?: string }){
     return (
         <div className="flex flex-wrap gap-12">
             {data?.products.map(({ id, brand, name, gallery, prices, inStock, attributes }) => (
-                <div key={id}>
                     <ProductCard
+                        key={id}
                         id={id}
                         name={name}
                         inStock={inStock}
@@ -59,7 +59,6 @@ function ProductCards({ category }: { category?: string }){
                         attributes={attributes}
                         brand={brand}
                     />
-                </div>
             ))}
         </div>
     );

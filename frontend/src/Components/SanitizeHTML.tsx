@@ -10,6 +10,7 @@ export default function SanitizeHTML({html} : SanitizeHtmlProps) {
     return (
         <div
             className="prose"
+            data-testid="product-description"
         >
             {output}
         </div>

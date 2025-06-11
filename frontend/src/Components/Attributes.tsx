@@ -31,7 +31,7 @@ export default function Attributes({ items, onSelect }: AttributesProps) {
     return (
         <div className="my-6">
             {items.map((attr) => (
-                <div key={attr.id} className="mb-4">
+                <div key={attr.id} className="mb-4" data-testid={`product-attribute-${attr.name}`}>
                     <h3 className="text-lg font-semibold">{`${(attr.name).toUpperCase()}:`}</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
                         {attr.items.map((item) => (

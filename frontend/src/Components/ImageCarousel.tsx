@@ -6,7 +6,7 @@ export default function ImageCarousel({gallery} : {gallery? : string[]}) {
     const imageItems = gallery ? gallery.length - 1 : 0;
 
     return (
-        <div className="h-[65vh] w-11/12 flex gap-10 grow-2 ">
+        <div className="h-[65vh] w-11/12 flex gap-10 grow-2" data-testid="product-gallery">
             <div className="overflow-y-scroll scrollbar-hidden">
                 {gallery && gallery.map((image, index) => (
                     <img src={image} key={index} alt="photo" className="h-28 w-28 mb-4 object-cover hover:cursor-pointer" onClick={() => setImageCount(index)}/>
