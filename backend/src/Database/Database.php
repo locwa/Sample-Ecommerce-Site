@@ -24,8 +24,9 @@ class Database extends PDO {
         $pwd = $_ENV['DB_PASSWORD'];
         $host = $_ENV['DB_HOST'];
         $dbname = $_ENV['DB_NAME'];
+        $port = $_ENV['DB_PORT'];
 
-        $dsn = "mysql:host=". $host .";dbname=". $dbname;
+        $dsn = "mysql:host=". $host . ";port=" . $port . ";dbname=". $dbname;
 
         // connection to database
         try{
