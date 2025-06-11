@@ -52,7 +52,7 @@ export default function Navbar() {
                 />
             </div>
             <Link to="/">
-                <img src="/public/a-logo.png" className='pr-30' alt="a-logo"/>
+                <img src="https://ecommerce.lapolicarpio.com/a-logo.png" className='pr-30' alt="a-logo"/>
             </Link>
             <button onClick={toggleCart} className="hover:cursor-pointer w-10 h-10 flex items-center justify-center" data-testid='cart-btn'>
                 <div className="relative bottom-3 left-8 bg-black w-4 h-4 m-auto rounded-xl">
