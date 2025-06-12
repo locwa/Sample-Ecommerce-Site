@@ -18,7 +18,7 @@ class RedisClient
             self::$client = new Client([
                 'scheme' => 'tls',
                 'host' => $_ENV['REDIS_HOST'],
-                'port' => $_ENV['REDIS_PORT'],
+                'port' => 6739,
                 'password' => $_ENV['REDIS_PASSWORD'],
             ]);
         }

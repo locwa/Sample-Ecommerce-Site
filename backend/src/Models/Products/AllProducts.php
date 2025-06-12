@@ -84,7 +84,7 @@ class AllProducts extends AbstractProducts
     public function getProductPrice(string $id = null) : array
     {
         $redis = null;
-        $cacheKey = 'product:all:' . ($id ?? 'all');
+        $cacheKey = 'product:price:' . $id;
         try {
             $redis = RedisClient::get();
             $cached = $redis->get($cacheKey);
