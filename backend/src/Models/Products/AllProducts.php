@@ -89,8 +89,8 @@ class AllProducts extends AbstractProducts
         $res = $stmt->fetch(PDO::FETCH_OBJ);
 
         return [
-            'amount' => $res[0]->price,
-            'currency_id' => $res[0]->currency_id,
+            'amount' => $res->price,
+            'currency_id' => $res->currency_id,
         ];
     }
 
