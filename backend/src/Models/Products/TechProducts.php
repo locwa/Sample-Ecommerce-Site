@@ -3,6 +3,7 @@
 namespace App\Models\Products;
 
 use App\Database\Database;
+use App\Utils\RedisClient;
 use PDO;
 
 class TechProducts extends AbstractProducts
@@ -15,7 +16,18 @@ class TechProducts extends AbstractProducts
      * @return array
      */
     public function getProductDetails(string $id = null) : array{
-        //
+        $redis = null;
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("tech" ? ":tech" : '');
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $query = "SELECT id, name, inStock, description, brand FROM products WHERE category = 'tech'";
         if ($id !== null){
@@ -49,6 +61,13 @@ class TechProducts extends AbstractProducts
             ];
             $resultArray[] = $arrayToPush;
         }
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
+        }
+
         return $resultArray;
     }
 
@@ -59,13 +78,36 @@ class TechProducts extends AbstractProducts
      *
      * @return array
      */
-    public function getProductPrice(int $index, string $id) : array{
+    public function getProductPrice(string $id = null) : array{
+        $redis = null;
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("tech" ? ":tech" : '');
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $stmt = $db->prepare("SELECT price FROM products WHERE category = 'tech' AND id = ?");
         $stmt->execute([$id]);
-        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $res = $stmt->fetch(PDO::FETCH_OBJ);
 
-        return ['amount' => $res[$index]->price];
+        $resultArray = [
+            'amount' => $res->price,
+            'currency_id' => $res->currency_id,
+        ];
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
+        };
+
+        return $resultArray;;
     }
 
     /**
@@ -78,15 +120,35 @@ class TechProducts extends AbstractProducts
 
     public function getProductCurrency(int $id) : array
     {
+        $redis = null;
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("tech" ? ":tech" : '');
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $stmt = $db->prepare("SELECT label, symbol FROM currency WHERE id = ? AND category = 'tech'");
         $stmt->execute([$id]);
-        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $res = $stmt->fetch(PDO::FETCH_OBJ);
 
-        return [
-            'label' => $res[0]->label,
-            'symbol' => $res[0]->symbol
+        $resultArray = [
+            'label' => $res->label,
+            'symbol' => $res->symbol
         ];
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
+        };
+
+        return $resultArray;
     }
 
     /**
@@ -102,6 +164,19 @@ class TechProducts extends AbstractProducts
             return [];
         }
 
+        $redis = null;
+        sort($productIds);
+        $cacheKey = 'product:gallery:' . implode(',', $productIds) . ("tech" ? ":tech" : '');
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $inQuery = implode(',', array_fill(0, count($productIds), '?'));
 
@@ -113,6 +188,12 @@ class TechProducts extends AbstractProducts
         $grouped = [];
         foreach ($galleryData as $row) {
             $grouped[$row['product_id']][] = $row['link'];
+        }
+
+        try {
+            $redis->set($cacheKey, json_encode($grouped));
+        } catch (\Throwable $e) {
+            error_log("Redis set error in getProductGallery: " . $e->getMessage());
         }
 
         return $grouped;
