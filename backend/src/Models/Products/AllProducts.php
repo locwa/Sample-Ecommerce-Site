@@ -17,6 +17,7 @@ class AllProducts extends AbstractProducts
      */
     public function getProductDetails(string $id = null) : array{
         $redis = null;
+        $cacheKey = null;
         $cacheKey = 'product:all:' . ($id ?? 'all');
         try {
             $redis = RedisClient::get();
@@ -63,12 +64,10 @@ class AllProducts extends AbstractProducts
             $resultArray[] = $arrayToPush;
         }
 
-        if ($redis) {
-            try {
-                $redis->set($cacheKey, json_encode($resultArray));
-            } catch (\Throwable $e) {
-                error_log('Redis set error: ' . $e->getMessage());
-            }
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
         }
 
         return $resultArray;
@@ -82,16 +81,38 @@ class AllProducts extends AbstractProducts
      * @param int $index
      * @return array
      */
-    public function getProductPrice(string $id = null) : array{
+    public function getProductPrice(string $id = null) : array
+    {
+        $redis = null;
+        $cacheKey = 'product:all:' . ($id ?? 'all');
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error in getProductPrice: ' . $e->getMessage());
+        }
+
+
         $db = new Database();
         $stmt = $db->prepare("SELECT price, currency_id FROM products WHERE id = ?");
         $stmt->execute([$id]);
         $res = $stmt->fetch(PDO::FETCH_OBJ);
 
-        return [
+        $resultArray = [
             'amount' => $res->price,
             'currency_id' => $res->currency_id,
         ];
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
+        };
+
+        return $resultArray;
     }
 
     /**
@@ -110,8 +131,8 @@ class AllProducts extends AbstractProducts
         $res = $stmt->fetch(PDO::FETCH_OBJ);
 
         return [
-            'label' => $res[0]->label,
-            'symbol' => $res[0]->symbol
+            'label' => $res->label,
+            'symbol' => $res->symbol
         ];
     }
 
