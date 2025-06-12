@@ -111,14 +111,14 @@ class AllProducts extends AbstractProducts
         $db = new Database();
         $inQuery = implode(',', array_fill(0, count($productIds), '?'));
 
-        $stmt = $db->prepare("SELECT product_id, image_url FROM product_gallery WHERE product_id IN ($inQuery)");
+        $stmt = $db->prepare("SELECT product_id, link FROM gallery WHERE product_id IN ($inQuery)");
         $stmt->execute($productIds);
 
         $galleryData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $grouped = [];
         foreach ($galleryData as $row) {
-            $grouped[$row['product_id']][] = $row['image_url'];
+            $grouped[$row['product_id']][] = $row['link'];
         }
 
         return $grouped;
