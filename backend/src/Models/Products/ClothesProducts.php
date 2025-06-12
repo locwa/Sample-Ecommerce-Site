@@ -17,7 +17,7 @@ class ClothesProducts extends AbstractProducts
      */
     public function getProductDetails(string $id = null) : array{
         $redis = null;
-        $cacheKey = 'product:all:' . ($id ?? 'all');
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("clothes" ? ":clothes" : '');
         try {
             $redis = RedisClient::get();
             $cached = $redis->get($cacheKey);
@@ -81,7 +81,7 @@ class ClothesProducts extends AbstractProducts
      */
     public function getProductPrice(string $id = null) : array{
         $redis = null;
-        $cacheKey = 'product:price:' . $id;
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("clothes" ? ":clothes" : '');
         try {
             $redis = RedisClient::get();
             $cached = $redis->get($cacheKey);
@@ -123,7 +123,7 @@ class ClothesProducts extends AbstractProducts
     public function getProductCurrency(int $id) : array
     {
         $redis = null;
-        $cacheKey = 'product:currency:' . $id;
+        $cacheKey = 'product:all:' . ($id ?? 'all') . ("clothes" ? ":clothes" : '');
         try {
             $redis = RedisClient::get();
             $cached = $redis->get($cacheKey);
@@ -168,7 +168,7 @@ class ClothesProducts extends AbstractProducts
 
         $redis = null;
         sort($productIds);
-        $cacheKey = 'product:gallery:' . implode(',', $productIds);
+        $cacheKey = 'product:gallery:' . implode(',', $productIds) . ("clothes" ? ":clothes" : '');;
 
         try {
             $redis = RedisClient::get();
