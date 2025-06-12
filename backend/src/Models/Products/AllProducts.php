@@ -82,7 +82,7 @@ class AllProducts extends AbstractProducts
      * @param int $index
      * @return array
      */
-    public function getProductPrice(int $index, string $id = null) : array{
+    public function getProductPrice(string $id = null) : array{
         $db = new Database();
         $stmt = $db->prepare("SELECT price, currency_id FROM products WHERE id = ?");
         $stmt->execute([$id]);

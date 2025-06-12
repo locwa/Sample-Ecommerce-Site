@@ -34,7 +34,7 @@ class ProductType extends ObjectType
                     'type' => new PricesType(),
                     'resolve' => function($price) {
                         $products = new AllProducts();
-                        return $products->getProductPrice($price['index'], $price['id']);
+                        return $products->getProductPrice($price['id']);
                     }
                 ],
                 'brand'=> Type::string(),
