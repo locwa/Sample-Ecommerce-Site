@@ -103,7 +103,7 @@ class AllProducts extends AbstractProducts
      * @return array
      */
 
-    public static function getProductGallery(string $id) : array{
+    public static function getProductGallery(array $productIds) : array{
         if (empty($productIds)) {
             return [];
         }
