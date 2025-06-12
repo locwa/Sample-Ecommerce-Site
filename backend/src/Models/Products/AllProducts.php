@@ -3,6 +3,7 @@
 namespace App\Models\Products;
 
 use App\Database\Database;
+use App\Utils\RedisClient;
 use PDO;
 
 class AllProducts extends AbstractProducts
@@ -15,7 +16,15 @@ class AllProducts extends AbstractProducts
      * @return array
      */
     public function getProductDetails(string $id = null) : array{
-        //
+
+        $redis = RedisClient::get();
+        $cacheKey = 'product:all:' . ($id ?? 'all');
+
+        $cached = $redis->get($cacheKey);
+        if ($cached) {
+            return json_decode($cached, true);
+        }
+
         $db = new Database();
         $query = "SELECT id, name, inStock, description, brand FROM products";
         if ($id !== null){
@@ -50,6 +59,9 @@ class AllProducts extends AbstractProducts
             ];
             $resultArray[] = $arrayToPush;
         }
+
+        $redis->set($cacheKey, json_encode($resultArray));
+
         return $resultArray;
     }
 
@@ -65,7 +77,7 @@ class AllProducts extends AbstractProducts
         $db = new Database();
         $stmt = $db->prepare("SELECT price, currency_id FROM products WHERE id = ?");
         $stmt->execute([$id]);
-        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $res = $stmt->fetch(PDO::FETCH_OBJ);
 
         return [
             'amount' => $res[0]->price,
@@ -86,7 +98,7 @@ class AllProducts extends AbstractProducts
         $db = new Database();
         $stmt = $db->prepare("SELECT label, symbol FROM currency WHERE id = ?");
         $stmt->execute([$id]);
-        $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $res = $stmt->fetch(PDO::FETCH_OBJ);
 
         return [
             'label' => $res[0]->label,
