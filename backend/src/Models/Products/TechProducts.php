@@ -17,7 +17,7 @@ class TechProducts extends AbstractProducts
     public function getProductDetails(string $id = null) : array{
         //
         $db = new Database();
-        $query = "SELECT * FROM products WHERE category = 'tech'";
+        $query = "SELECT id, name, inStock, description, brand FROM products WHERE category = 'tech'";
         if ($id !== null){
             $query .= " AND id = ?";
         }

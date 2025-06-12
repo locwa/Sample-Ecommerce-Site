@@ -17,7 +17,7 @@ class AllProducts extends AbstractProducts
     public function getProductDetails(string $id = null) : array{
         //
         $db = new Database();
-        $query = "SELECT * FROM products";
+        $query = "SELECT id, name, inStock, description, brand FROM products";
         if ($id !== null){
             $query .= " WHERE id = ?";
         }
