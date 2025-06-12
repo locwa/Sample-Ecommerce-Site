@@ -16,9 +16,10 @@ class AllProducts extends AbstractProducts
      * @return array
      */
     public function getProductDetails(string $id = null) : array{
+        $redis = null;
+        $cacheKey = 'product:all:' . ($id ?? 'all');
         try {
             $redis = RedisClient::get();
-            $cacheKey = 'product:all:' . ($id ?? 'all');
             $cached = $redis->get($cacheKey);
             if ($cached) {
                 return json_decode($cached, true);
@@ -44,7 +45,7 @@ class AllProducts extends AbstractProducts
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         $productIds = array_map(fn($p) => $p->id, $res);
-        $galleries = $this->getProductGallery($productIds);
+        $galleries = self::getProductGallery($productIds);
 
 
         $resultArray = [];
@@ -62,7 +63,13 @@ class AllProducts extends AbstractProducts
             $resultArray[] = $arrayToPush;
         }
 
-        $redis->set($cacheKey, json_encode($resultArray));
+        if ($redis) {
+            try {
+                $redis->set($cacheKey, json_encode($resultArray));
+            } catch (\Throwable $e) {
+                error_log('Redis set error: ' . $e->getMessage());
+            }
+        }
 
         return $resultArray;
     }

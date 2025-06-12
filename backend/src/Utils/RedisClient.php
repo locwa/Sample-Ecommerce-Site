@@ -11,7 +11,7 @@ class RedisClient
 
     public static function get(): Client
     {
-        $dotenv = Dotenv::createImmutable(__DIR__, '/../../.env');
+        $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
         $dotenv->safeLoad();
 
         if (!self::$client) {
