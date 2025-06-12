@@ -16,13 +16,15 @@ class AllProducts extends AbstractProducts
      * @return array
      */
     public function getProductDetails(string $id = null) : array{
-
-        $redis = RedisClient::get();
-        $cacheKey = 'product:all:' . ($id ?? 'all');
-
-        $cached = $redis->get($cacheKey);
-        if ($cached) {
-            return json_decode($cached, true);
+        try {
+            $redis = RedisClient::get();
+            $cacheKey = 'product:all:' . ($id ?? 'all');
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error: ' . $e->getMessage());
         }
 
         $db = new Database();
