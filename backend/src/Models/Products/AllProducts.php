@@ -17,7 +17,6 @@ class AllProducts extends AbstractProducts
      */
     public function getProductDetails(string $id = null) : array{
         $redis = null;
-        $cacheKey = null;
         $cacheKey = 'product:all:' . ($id ?? 'all');
         try {
             $redis = RedisClient::get();
@@ -94,7 +93,6 @@ class AllProducts extends AbstractProducts
         } catch (\Throwable $e) {
             error_log('Redis error in getProductPrice: ' . $e->getMessage());
         }
-
 
         $db = new Database();
         $stmt = $db->prepare("SELECT price, currency_id FROM products WHERE id = ?");
