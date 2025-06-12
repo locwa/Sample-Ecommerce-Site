@@ -125,15 +125,35 @@ class AllProducts extends AbstractProducts
      */
 
     public function getProductCurrency(int $id) : array{
+        $redis = null;
+        $cacheKey = 'product:currency:' . $id;
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error in getProductCurrency: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $stmt = $db->prepare("SELECT label, symbol FROM currency WHERE id = ?");
         $stmt->execute([$id]);
         $res = $stmt->fetch(PDO::FETCH_OBJ);
 
-        return [
+        $resultArray = [
             'label' => $res->label,
             'symbol' => $res->symbol
         ];
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error: ' . $e->getMessage());
+        };
+
+        return $resultArray;
     }
 
     /**
@@ -150,6 +170,20 @@ class AllProducts extends AbstractProducts
             return [];
         }
 
+        $redis = null;
+        sort($productIds);
+        $cacheKey = 'product:gallery:' . implode(',', $productIds);
+
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error in getProductPrice: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $inQuery = implode(',', array_fill(0, count($productIds), '?'));
 
@@ -161,6 +195,12 @@ class AllProducts extends AbstractProducts
         $grouped = [];
         foreach ($galleryData as $row) {
             $grouped[$row['product_id']][] = $row['link'];
+        }
+
+        try {
+            $redis->set($cacheKey, json_encode($grouped));
+        } catch (\Throwable $e) {
+            error_log("Redis set error in getProductGallery: " . $e->getMessage());
         }
 
         return $grouped;
