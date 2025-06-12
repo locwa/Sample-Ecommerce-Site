@@ -31,6 +31,10 @@ class ClothesProducts extends AbstractProducts
         }
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
+        $productIds = array_map(fn($p) => $p->id, $res);
+        $galleries = $this->getProductGallery($productIds);
+
+
         $resultArray = [];
 
         foreach($res as $index=>$product){
@@ -38,7 +42,7 @@ class ClothesProducts extends AbstractProducts
                 'id' => $product->id,
                 'name' => $product->name,
                 'inStock' => $product->inStock,
-                'gallery' => self::getProductGallery($product->id),
+                'gallery' => $galleries[$product->id] ?? [],
                 'description' => $product->description,
                 'brand' => $product->brand,
                 'index' => $index,
@@ -77,7 +81,7 @@ class ClothesProducts extends AbstractProducts
     public function getProductCurrency(int $id) : array
     {
         $db = new Database();
-        $stmt = $db->prepare("SELECT * FROM currency WHERE id = ? AND category = 'clothes'");
+        $stmt = $db->prepare("SELECT label, symbol FROM currency WHERE id = ? AND category = 'clothes'");
         $stmt->execute([$id]);
         $res = $stmt->fetchAll(PDO::FETCH_OBJ);
 
