@@ -2,9 +2,9 @@ import type {Items} from "../Types/Attribute";
 import {getCart, cartTotal, getSelectedAttributeItem, editItemQty, cartItemsForMutation} from "../Utils/cartUtil.ts";
 import type {CartItems} from "../Types/CartItems";
 import AttributeSelector from "./AttributeSelector.tsx";
-import {PlusButton, MinusButton} from "../Logos.tsx"
+import {PlusButton, MinusButton, LoadingSpinner} from "../Logos.tsx"
 import {useCart} from "../CartContext.tsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 
 const SUBMIT_ORDER = gql`
@@ -20,18 +20,20 @@ const SUBMIT_ORDER = gql`
     }
 `;
 
-function CartFooter({isEnabled} : {isEnabled : boolean}) {
+function CartFooter({isEnabled, setIsLoading} : {isEnabled : boolean, setIsLoading : React.Dispatch<React.SetStateAction<boolean>> }) {
     const [submitOrder] = useMutation(SUBMIT_ORDER);
 
     const { openCart, refreshCart } = useCart();
 
     const handleSubmit = async () => {
+        setIsLoading(true)
         await submitOrder({
             variables: {
                 order: cartItemsForMutation()
             }
         });
         localStorage.clear();
+        setIsLoading(false)
         refreshCart();
         openCart();
     };
@@ -55,6 +57,7 @@ function CartFooter({isEnabled} : {isEnabled : boolean}) {
 export default function CartItems() {
     const [cartItems, setCartItems] = useState<CartItems[]>(getCart());
     const {refreshCart} = useCart();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setCartItems(getCart());
@@ -66,11 +69,20 @@ export default function CartItems() {
         refreshCart();
     };
 
+    if (isLoading){
+        return(
+            <div className="flex flex-col items-center justify-center my-10 gap-y-6">
+                <LoadingSpinner />
+                <p>Adding to Cart</p>
+            </div>
+        )
+    }
+
     if (cartItems.slice().length == 0) {
         return (
             <>
                 <p className="overflow-y-scroll min-h-[40vh] max-h-[40vh] scrollbar-slim">Cart is empty</p>
-                <CartFooter isEnabled={!!cartItems.slice().length}/>
+                <CartFooter isEnabled={!!cartItems.slice().length} setIsLoading={setIsLoading}/>
             </>
         )
     }
@@ -127,7 +139,7 @@ export default function CartItems() {
                     </div>
                 ))}
             </div>
-            <CartFooter isEnabled={!!cartItems.slice().length}/>
+            <CartFooter isEnabled={!!cartItems.slice().length} setIsLoading={setIsLoading}/>
         </>
     );
 }
