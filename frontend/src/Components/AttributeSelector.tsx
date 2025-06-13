@@ -13,7 +13,7 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     if (mode === "productDetails") {
         toggleStylingText = isSelected ? "bg-black text-white px-5 py-3 hover:cursor-pointer" : "bg-gray-100 px-5 py-3 hover:cursor-pointer";
         toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-8 h-8 hover:cursor-pointer" : "w-8 h-8 hover:cursor-pointer";
-        dataTestId = isSelected ? `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}-selected`:  `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}`
+        dataTestId = isSelected ? `product-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}-selected`:  `product-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}`
         colorSwatch = "w-7 h-7 p-1 border border-black"
     } else if (mode === "cart") {
         toggleStylingText = isSelected ? "bg-black text-white px-3 py-1" : "bg-gray-100 px-3 py-1";
