@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Raleway';
+    src: url('../raleway-font/Raleway-Black.woff2') format('woff2'),
+        url('../raleway-font/Raleway-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-Bold.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-ExtraBold.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-Light.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-ExtraLight.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-Thin.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-Medium.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-SemiBold.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/raleway-font/Raleway-Regular.woff2') format('woff2'),
+        url('../public/raleway-font/Raleway-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
