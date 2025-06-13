@@ -34,6 +34,19 @@ class SwatchAttribute extends AbstractAttributes
     }
 
     public function getAttributeItems(int $attributeId) : array {
+        $redis = null;
+        $cacheKey = 'attribute:items:' . $attributeId;
+
+        try {
+            $redis = RedisClient::get();
+            $cached = $redis->get($cacheKey);
+            if ($cached) {
+                return json_decode($cached, true);
+            }
+        } catch (\Throwable $e) {
+            error_log('Redis error in getAttributeItems: ' . $e->getMessage());
+        }
+
         $db = new Database();
         $query = "SELECT * FROM attribute_values WHERE attribute_id = ?";
         $stmt = $db->prepare($query);
@@ -50,6 +63,13 @@ class SwatchAttribute extends AbstractAttributes
             ];
             $resultArray[] = $arrayToPush;
         }
+
+        try {
+            $redis->set($cacheKey, json_encode($resultArray));
+        } catch (\Throwable $e) {
+            error_log('Redis set error in getAttributeItems: ' . $e->getMessage());
+        }
+
         return $resultArray;
     }
 }
