@@ -42,7 +42,7 @@ export default function ProductCard({id, name, gallery, prices, inStock, attribu
             className={"my-14 p-3 relative " + (isHovered && "shadow-[0_0_25px_3px_rgba(0,0,0,0.25)]")}
             onMouseOver={() => setIsHovered(true)}
             onMouseOut={() => setIsHovered(false)}
-            data-testid={`product-${name}`}
+            data-testid={`product-${name.replaceAll(" ", "-").toLowerCase()}`}
         >
             {(isHovered && inStock) && (
                 <button
