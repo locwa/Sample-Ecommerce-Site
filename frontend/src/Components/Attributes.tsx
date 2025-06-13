@@ -31,13 +31,14 @@ export default function Attributes({ items, onSelect }: AttributesProps) {
     return (
         <div className="my-6">
             {items.map((attr) => (
-                <div key={attr.id} className="mb-4" data-testid={`product-attribute-${attr.name}`}>
+                <div key={attr.id} className="mb-4" data-testid={`product-attribute-${attr.name.replaceAll(" ", "-").toLowerCase()}`}>
                     <h3 className="text-lg font-semibold">{`${(attr.name).toUpperCase()}:`}</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
                         {attr.items.map((item) => (
                             <AttributeSelector
                                 key={item.id}
                                 id={item.id}
+                                attrId={attr.id}
                                 type={attr.type}
                                 itemValue={item.value}
                                 selectedId={selectedByAttr[attr.id] || null}

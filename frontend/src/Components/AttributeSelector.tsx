@@ -13,11 +13,12 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     if (mode === "productDetails") {
         toggleStylingText = isSelected ? "bg-black text-white px-5 py-3 hover:cursor-pointer" : "bg-gray-100 px-5 py-3 hover:cursor-pointer";
         toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-8 h-8 hover:cursor-pointer" : "w-8 h-8 hover:cursor-pointer";
+        dataTestId = isSelected ? `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}-selected`:  `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}`
         colorSwatch = "w-7 h-7 p-1 border border-black"
     } else if (mode === "cart") {
         toggleStylingText = isSelected ? "bg-black text-white px-3 py-1" : "bg-gray-100 px-3 py-1";
         toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-6 h-6" : "w-6 h-6";
-        dataTestId = isSelected ? `cart-item-attribute-${attributeName?.toLowerCase()}-${itemValue.toLowerCase()}-selected`:  `cart-item-attribute-${attributeName?.toLowerCase()}-${itemValue.toLowerCase()}`
+        dataTestId = isSelected ? `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}-selected`:  `cart-item-attribute-${attributeName?.replaceAll(" ", "-").toLowerCase()}-${itemValue}`
         colorSwatch = "w-5 h-5 p-1 border border-black";
     }
 
@@ -25,9 +26,9 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
         <button
             key={id}
             className={"border text-sm " + toggleStylingText}
-            {...(mode === "cart" && {
-                [`data-testid`]: dataTestId,
-            })}
+            {...{
+                [`data-testid`]: dataTestId
+            }}
             onClick={() => onSelect(id)}
         >
             {type === 'text' ? itemValue : ""}
@@ -36,9 +37,9 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
         <button
             key={id}
             className={"flex items-center justify-center " + toggleStylingSwatch}
-            {...(mode === "cart" && {
-                [`data-testid`]: dataTestId,
-            })}
+            {...{
+                [`data-testid`]: dataTestId
+            }}
             onClick={() => onSelect(id)}
         >
             <div
