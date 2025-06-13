@@ -9,6 +9,7 @@ import {useCallback, useState} from "react";
 import Layout from "../Layout.tsx";
 import type {Attribute} from "../Types/Attribute";
 import {useCart} from "../CartContext.tsx";
+import {LoadingFiller} from "../Components/LoadingFiller.tsx";
 
 const GET_PRODUCT = gql`
     query GetProduct($productId: String ) {
@@ -82,7 +83,7 @@ export default function ProductDetails() {
     }
 
 
-    if (loading) return <Layout><p className="text-xl my-10">Loading...</p></Layout>;
+    if (loading) return <Layout><LoadingFiller/></Layout>;
     if (error) return <Layout><p>Oops. It seems there is an error loading the product</p></Layout>;
 
     return (

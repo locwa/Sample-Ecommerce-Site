@@ -4,6 +4,7 @@ import Layout from "../Layout.tsx";
 import {gql, useQuery} from "@apollo/client";
 import type {ProductsData} from "../Types/ProductTypes";
 import ProductCard from "../Components/ProductCard.tsx";
+import {LoadingFiller} from "../Components/LoadingFiller.tsx";
 
 
 const GET_PRODUCTS = gql`
@@ -40,7 +41,7 @@ function ProductCards({ category }: { category?: string }){
     });
 
 
-    if (loading) return <p className="text-xl my-10">Loading...</p>;
+    if (loading) return <LoadingFiller/>;
     if (error) return <p>Oops. It seems there is an error loading all products</p>;
 
     return (
