@@ -17,7 +17,7 @@ export default function AttributeSelector({id, type, itemValue, selectedId, onSe
     } else if (mode === "cart") {
         toggleStylingText = isSelected ? "bg-black text-white px-3 py-1" : "bg-gray-100 px-3 py-1";
         toggleStylingSwatch = isSelected ? "border border-[#5ECE7B] w-6 h-6" : "w-6 h-6";
-        dataTestId = isSelected ? `cart-item-attribute-${attributeName}-${attributeName}-selected`:  `cart-item-attribute-${attributeName}-${attributeName}`
+        dataTestId = isSelected ? `cart-item-attribute-${attributeName}-${itemValue}-selected`:  `cart-item-attribute-${attributeName}-${itemValue}`
         colorSwatch = "w-5 h-5 p-1 border border-black";
     }
 

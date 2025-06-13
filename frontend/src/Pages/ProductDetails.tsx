@@ -93,7 +93,7 @@ export default function ProductDetails() {
                     <title>{`${p.brand}  ${p.name} | OmniShop`}</title>
                     <ImageCarousel gallery={p.gallery} />
                     <div className="w-[45vw]">
-                        <h2 className="text-4xl">{`${p.brand}  ${p.name} `}</h2>
+                        <h2 className="text-4xl">{p.name}</h2>
                         <Attributes
                             items={p.attributes}
                             onSelect={handleAttributeSelect}
