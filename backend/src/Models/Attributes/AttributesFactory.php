@@ -3,6 +3,7 @@
 namespace App\Models\Attributes;
 
 use App\Database\Database;
+use App\Utils\RedisClient;
 use InvalidArgumentException;
 use PDO;
 

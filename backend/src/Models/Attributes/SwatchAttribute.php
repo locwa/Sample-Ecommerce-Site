@@ -4,6 +4,7 @@ namespace App\Models\Attributes;
 
 use App\Database\Database;
 use App\Models\Attributes\AbstractAttributes;
+use App\Utils\RedisClient;
 use PDO;
 
 /**
