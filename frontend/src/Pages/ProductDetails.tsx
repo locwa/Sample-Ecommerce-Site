@@ -106,7 +106,7 @@ export default function ProductDetails() {
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock && isAttributesComplete(p.attributes) ?
                                 "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
                             data-testid="add-to-cart"
-                            disabled={!p.inStock && isAttributesComplete(p.attributes)}
+                            disabled={!p.inStock || isAttributesComplete(p.attributes)}
                             onClick={() => (p.inStock && isAttributesComplete(p.attributes)) &&
                                 cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0], p.id, p.brand)}
                         >
