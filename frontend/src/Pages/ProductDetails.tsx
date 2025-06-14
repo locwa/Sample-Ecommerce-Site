@@ -70,11 +70,12 @@ export default function ProductDetails() {
         brand: string) => {
         if ((Object.keys(attributes).length) === (Object.keys(selectedAttributes).length)){
             const success = addToCart(name, price, currency, attributes, photo, selectedAttributes, id, brand);
+            openCart();
             setAddToCartStatus(success)
             if (success) {
                 refreshCart();
-                openCart();
             }
+
         }
     }
 
@@ -104,8 +105,8 @@ export default function ProductDetails() {
                         <button
                             className={"w-1/2 py-4 mb-8 text-white " + (p.inStock && isAttributesComplete(p.attributes) ?
                                 "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
-                            disabled={!p.inStock && isAttributesComplete(p.attributes)}
                             data-testid="add-to-cart"
+                            disabled={!p.inStock && isAttributesComplete(p.attributes)}
                             onClick={() => (p.inStock && isAttributesComplete(p.attributes)) &&
                                 cartButtonClick(p.name, p.prices.amount, p.prices.currency.symbol, p.attributes, p.gallery[0], p.id, p.brand)}
                         >
