@@ -70,10 +70,10 @@ export default function ProductDetails() {
         brand: string) => {
         if ((Object.keys(attributes).length) === (Object.keys(selectedAttributes).length)){
             const success = addToCart(name, price, currency, attributes, photo, selectedAttributes, id, brand);
-            openCart();
             setAddToCartStatus(success)
             if (success) {
                 refreshCart();
+                openCart();
             }
 
         }
