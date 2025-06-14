@@ -18,7 +18,8 @@ class SwatchAttribute extends AbstractAttributes
      * @param string|null $id
      * @return array
      */
-    public function getProductAttribute(string $id = null) : array{
+    public function getProductAttribute(string $id = null) : array
+    {
         $db = new Database();
         $query = "SELECT * FROM attributes WHERE id = ? AND types = 'swatch'";
         $stmt = $db->prepare($query);
@@ -45,7 +46,8 @@ class SwatchAttribute extends AbstractAttributes
      * @param int $attributeId The id of the row in the database
      * @return array The Attribute Items
      */
-    public function getAttributeItems(int $attributeId) : array {
+    public function getAttributeItems(int $attributeId) : array
+    {
         $redis = null;
         // Cache Key of items in Upstash Redis
         $cacheKey = 'attribute:items:' . $attributeId;

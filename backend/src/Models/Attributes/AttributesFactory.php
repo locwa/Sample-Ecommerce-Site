@@ -72,7 +72,8 @@ class AttributesFactory
      * @param string $type The type of attribute (e.g., swatch)
      * @return SwatchAttribute|TextAttribute The class returned based on the type param
      */
-    public function getAttributeSubClass(string $type){
+    public function getAttributeSubClass(string $type)
+    {
         return match ($type){
             'swatch' => new SwatchAttribute(),
             'text' => new TextAttribute(),
