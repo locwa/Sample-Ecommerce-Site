@@ -6,6 +6,9 @@ use App\Database\Database;
 use App\Utils\RedisClient;
 use PDO;
 
+/**
+ * Contains methods related to products from the tech category
+ */
 class TechProducts extends AbstractProducts
 {
     /**
