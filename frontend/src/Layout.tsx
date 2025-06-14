@@ -17,7 +17,9 @@ export default function Layout(
                             <div
                                 className="fixed top-15 left-0 w-full h-full bg-[#00000055] z-20"
                                 onClick={toggleCart}
-                            />
+                            >
+                                {/* Transparent Backdrop */}
+                            </div>
 
                             <div className="fixed right-15 bg-white h-8/12 w-96 py-6 px-4 z-40">
                                 <div className="flex my-6">
