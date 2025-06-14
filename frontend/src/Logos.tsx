@@ -106,7 +106,7 @@ export function LoadingSpinner(){
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="auto"
+            height="100%"
             width="5vw"
             version="1.1"
             id="_x32_"
