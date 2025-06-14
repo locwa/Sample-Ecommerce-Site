@@ -89,7 +89,7 @@ class GraphQL {
                         ],
                         'resolve' => function ($root, $args) {
                             $mutation = new Mutation();
-                            return $mutation->getItems($args['order']);
+                            return $mutation->insertItems($args['order']);
                         }
                     ]
                 ],

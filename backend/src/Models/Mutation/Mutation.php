@@ -5,9 +5,20 @@ namespace App\Models\Mutation;
 use App\Database\Database;
 use PDO;
 
+/**
+ * Class that contains all methods that handles mutations
+ */
 class Mutation
 {
-    public function getItems(array $order){
+    /**
+     * Inserts items from the cart to the database
+     *
+     * @param array $order The array that contains the cart items
+     * @return array The array of cart items
+     * @throws \Throwable For when database operations error happens
+     */
+    public function insertItems(array $order)
+    {
         $db = new Database();
         $db->beginTransaction();
         try{
