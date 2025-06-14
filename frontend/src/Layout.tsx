@@ -10,7 +10,7 @@ export default function Layout(
     return(
         <>
             <title>OmniShop</title>
-            <header className="sticky top-0 w-full h-full z-3">
+            <header className="sticky top-0 w-full h-20 z-30">
                 <Navbar />
                 {isCartOpen && (
                         <div className="block" data-testid="cart-overlay">
