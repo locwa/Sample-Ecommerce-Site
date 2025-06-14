@@ -23,7 +23,7 @@ const SUBMIT_ORDER = gql`
 function CartFooter({isEnabled, setIsLoading} : {isEnabled : boolean, setIsLoading : React.Dispatch<React.SetStateAction<boolean>> }) {
     const [submitOrder] = useMutation(SUBMIT_ORDER);
 
-    const { openCart, refreshCart } = useCart();
+    const { openCart, refreshCart, cartCount } = useCart();
 
     const handleSubmit = async () => {
         setIsLoading(true)
@@ -46,6 +46,7 @@ function CartFooter({isEnabled, setIsLoading} : {isEnabled : boolean, setIsLoadi
             </div>
             <button
                 className={"w-full py-3 mb-6 text-white " + (isEnabled ? "bg-[#5ECE7B] hover:cursor-pointer" : "bg-[#909090] hover:cursor-not-allowed")}
+                disabled={!(cartCount > 0)}
                 onClick={() => cartTotal() && handleSubmit()}
             >
                 PLACE ORDER
