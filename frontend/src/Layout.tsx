@@ -13,7 +13,7 @@ export default function Layout(
             <header className="sticky top-0 w-full h-full z-3">
                 <Navbar />
                 {isCartOpen && (
-                        <div data-testid="cart-overlay">
+                        <div className="block" data-testid="cart-overlay">
                             <div
                                 className="fixed top-15 left-0 w-full h-full bg-[#00000055] z-20"
                                 onClick={toggleCart}
