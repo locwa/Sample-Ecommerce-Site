@@ -24,10 +24,10 @@ Live Link: https://ecommerce.lapolicarpio.com
 
 Make sure you have these dependencies before so that you can run the project locally.
 
-[Node.js](https://nodejs.org/en)
-[npm](https://docs.npmjs.com/about-npm)
-[Composer](https://getcomposer.org/)
-[MySQL](https://www.mysql.com/)
+* [Node.js](https://nodejs.org/en)
+* [npm](https://docs.npmjs.com/about-npm)
+* [Composer](https://getcomposer.org/)
+* [MySQL](https://www.mysql.com/)
 
 Make sure to import db.sql to your MySQL database.
 
